@@ -58,6 +58,7 @@ function tk_ud_admin_tabs( $current = 'homepage' ) {
  */
 function tk_ud_register_option() {
 	register_setting( 'tk_ud_buddyforms', 'tk_ud_buddyforms', 'tk_ud_buddyforms_sanitize' );
+	register_setting( 'tk_ud_meta', 'tk_ud_meta', 'tk_ud_buddyforms_sanitize' );
 }
 
 add_action( 'admin_init', 'tk_ud_register_option' );
@@ -123,73 +124,51 @@ function tk_ud_settings_page_tabs_content() { ?>
 									<?php submit_button(); ?>
 								</form>
 
+								<script>
 
+									jQuery(document).ready(function () {
 
+										// User Accordion
+										jQuery("#tk-pu-sortable").sortable({
+											revert: true
+										});
+										jQuery("#draggable").draggable({
+											connectToSortable: "#sortable",
+											helper: "clone",
+											revert: "invalid"
+										});
+										jQuery("ul, li").disableSelection();
+									});
+								</script>
+								<form method="post" action="options.php">
+									<?php
+									$tk_ud_meta = get_option( 'tk_ud_meta' );
+									settings_fields( 'tk_ud_meta' ); ?>
+									<ul id="tk-pu-sortable">
+									<?php
+									if ( isset( $buddyforms[ $tk_ud_buddyforms ][ 'form_fields' ] ) && is_array( $buddyforms[ $tk_ud_buddyforms ][ 'form_fields' ] ) ) { ?>
+										<?php foreach ( $buddyforms[ $tk_ud_buddyforms ][ 'form_fields' ] as $field ) { ?>
 
+											<li id="<?php echo $field['slug'] ?>">
 
-
-
-
-
-
-
-<style>
-
-</style>
-
-<script>
-
-	jQuery(document).ready(function () {
-
-		// User Accordion
-		jQuery("#tk-pu-sortable").sortable({
-			revert: true
-		});
-		jQuery("#draggable").draggable({
-			connectToSortable: "#sortable",
-			helper: "clone",
-			revert: "invalid"
-		});
-		jQuery("ul, li").disableSelection();
-	});
-</script>
-	<ul id="tk-pu-sortable">
-		<?php if ( isset( $buddyforms[ $tk_ud_buddyforms ][ 'form_fields' ] ) && is_array( $buddyforms[ $tk_ud_buddyforms ][ 'form_fields' ] ) ) { ?>
-			<?php foreach ( $buddyforms[ $tk_ud_buddyforms ][ 'form_fields' ] as $field ) { ?>
-
-				<li id="<?php echo $field['slug'] ?>">
-
-					<div class="menu-item-bar">
-						<div class="menu-item-handle ui-sortable-handle">
-							<span class="item-title"><span class="menu-item-title"><?php echo $field['name'] ?></span> <span class="is-submenu" style="display: none;">sub item</span></span>
-							<span class="item-controls">
-								<span class="item-type"><?php echo $field['name'] ?></span>
-							</span>
-						</div>
-					</div>
-				</li>
-				<?php
-			}
-		}
-		?></ul>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+												<div class="menu-item-bar">
+													<div class="menu-item-handle ui-sortable-handle">
+														<span class="item-title"><span class="menu-item-title"><?php echo $field['name'] ?></span> <span class="is-submenu" style="display: none;">sub item</span></span>
+														<span class="item-controls">
+															<span class="item-type">
+																<input type="checkbox" name="tk_ud_meta[<?php echo $field['slug'] ?>][loop]" value="<?php echo $field['slug'] ?>"> Add to loop
+																<input type="checkbox" name="tk_ud_meta[<?php echo $field['slug'] ?>][single]" value="<?php echo $field['slug'] ?>"> Add to Single
+															</span>
+														</span>
+													</div>
+												</div>
+											</li>
+											<?php
+										}
+									}
+									?><?php submit_button(); ?>
+										</form>
+								</ul>
 
 							</div><!-- .inside -->
 						</div><!-- .postbox -->

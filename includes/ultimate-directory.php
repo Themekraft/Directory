@@ -97,6 +97,128 @@ function tk_ud_register_tags() {
 
 
 
+add_filter( 'the_content', 'my_the_content_filter', 20 );
+/**
+ * Add a icon to the beginning of every post page.
+ *
+ * @uses is_single()
+ */
+function my_the_content_filter( $content ) {
+	global $post;
+
+	if ( is_single() ){
+		if($post->post_type == 'ultimate_directory'){
+			// Add image to the beginning of each page
+			$content = tk_ud_display_meta();
+
+		}
+	}
+
+	// Returns the content.
+	return $content;
+}
+
+function tk_ud_display_meta() {
+	global $buddyforms, $post;
+
+	if ( is_admin() ) {
+		return;
+	}
+
+	if ( ! isset( $post->ID ) ) {
+		return;
+	}
+
+	$form_slug = 'directory';//get_post_meta( $post->ID, '_bf_form_slug', true );
+
+	if ( ! isset( $form_slug ) ) {
+		return;
+	}
+
+	if ( ! isset( $buddyforms[ $form_slug ] ) ) {
+		return;
+	}
+
+	if ( ! isset( $buddyforms[ $form_slug ]['form_fields'] ) ) {
+		return;
+	}
+
+
+
+	foreach ( $buddyforms[ $form_slug ]['form_fields'] as $key => $customfield ) :
+
+		if ( ! empty( $customfield['slug'] ) ) :
+
+			$customfield_value = get_post_meta( $post->ID, $customfield['slug'], true );
+
+			if ( ! empty( $customfield_value ) ) {
+				$post_meta_tmp = '<div class="post_meta ' . $customfield['slug'] . '">';
+
+				if ( isset( $customfield['display_name'] ) ) {
+					$post_meta_tmp .= '<label>' . $customfield['name'] . '</label>';
+				}
+
+
+				if ( is_array( $customfield_value ) ) {
+					$meta_tmp = "<p>" . implode( ',', $customfield_value ) . "</p>";
+				} else {
+					$meta_tmp = "<p>" . $customfield_value . "</p>";
+				}
+
+
+				switch ( $customfield['type'] ) {
+					case 'taxonomy':
+						$meta_tmp = get_the_term_list( $post->ID, $customfield['taxonomy'], "<p>", ' - ', "</p>" );
+						break;
+					case 'link':
+						$meta_tmp = "<p><a href='" . $customfield_value . "' " . $customfield['name'] . ">" . $customfield_value . " </a></p>";
+						break;
+					default:
+						//$meta_tmp = $customfield_value;
+						break;
+				}
+
+				if ( $meta_tmp ) {
+					$post_meta_tmp .= $meta_tmp;
+				}
+
+			}
+
+		endif;
+
+	endforeach;
+
+	return $post_meta_tmp;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
