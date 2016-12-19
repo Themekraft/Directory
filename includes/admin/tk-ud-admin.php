@@ -127,9 +127,9 @@ function tk_ud_settings_page_tabs_content() { ?>
 									<?php
 									$tk_ud_meta = get_option( 'tk_ud_meta' );
 
-									echo '<pre>';
-									print_r($tk_ud_meta);
-									echo '</pre>';
+//									echo '<pre>';
+//									print_r($tk_ud_meta);
+//									echo '</pre>';
 
 									settings_fields( 'tk_ud_meta' ); ?>
 									<label for="form_fields_select"><p><b>Add form element's to the Loop</b></p></label>
@@ -161,7 +161,48 @@ function tk_ud_settings_page_tabs_content() { ?>
 									?>
 									</ul>
 
-									<select id="form_fields_select">
+									<select data-type="loop" id="form_fields_select">
+										<option value="none">Select a form field to add it to the loop list</option>
+										<?php
+										if ( isset( $buddyforms[$tk_ud_buddyforms]['form_fields'] ) && is_array( $buddyforms[$tk_ud_buddyforms]['form_fields'] ) ) {
+											foreach ( $buddyforms[$tk_ud_buddyforms]['form_fields'] as $field ) {
+												echo '<option value="' . $field["slug"] . '">' . $field["name"] . '</option>';
+											}
+										}
+										?>
+									</select>
+
+
+									<label for="form_fields_select"><p><b>Add form element's to the Single</b></p></label>
+									<ul id="tk-pu-single-sortable">
+										<?php
+										if ( isset( $tk_ud_meta[ 'single' ] ) && is_array( $tk_ud_meta[ 'single' ] ) ) { ?>
+											<?php foreach ( $tk_ud_meta[ 'single' ] as $field ) { ?>
+
+												<li id="<?php echo $field['slug'] ?>">
+
+													<div class="menu-item-bar">
+														<div class="menu-item-handle ui-sortable-handle">
+															<span class="item-title"><span class="menu-item-title"><?php echo $field['slug'] ?></span> <span class="is-submenu" style="display: none;">sub item</span></span>
+														<span class="item-controls">
+															<span class="item-type">
+																<input type="hidden" name="tk_ud_meta[loop][<?php echo $field['slug'] ?>][slug]" value="<?php echo $field['slug'] ?>">
+																<input type="checkbox" name="tk_ud_meta[loop][<?php echo $field['slug'] ?>][view_label]" value="view"> View Label
+															</span>
+															<a href="#" data-slug="<?php echo $field['slug'] ?>" class="delete_loop_meta">Delete</a>
+														</span>
+														</div>
+													</div>
+												</li>
+												<?php
+											}
+										} else {
+											echo 'No Fields to display for the Loop! Add some now! ';
+										}
+										?>
+									</ul>
+
+									<select data-type="single" id="form_fields_select">
 										<option value="none">Select a form field to add it to the loop list</option>
 										<?php
 										if ( isset( $buddyforms[$tk_ud_buddyforms]['form_fields'] ) && is_array( $buddyforms[$tk_ud_buddyforms]['form_fields'] ) ) {

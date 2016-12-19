@@ -30,18 +30,20 @@ jQuery(document).ready(function (jQuery) {
     jQuery(document.body).on('change', '#form_fields_select', function () {
         var field_slug = jQuery(this).val();
 
-        if(jQuery("#tk-pu-loop-sortable #" + field_slug).length) {
+        var type = jQuery(this).attr('data-type');
+
+        if(jQuery('#tk-pu-' + type + '-sortable #' + field_slug).length) {
             alert('This Form Field is already in the list!')
         } else {
-            jQuery('#tk-pu-loop-sortable').append('<li id="' + field_slug + '"> ' +
+            jQuery('#tk-pu-' + type + '-sortable').append('<li id="' + field_slug + '"> ' +
                 '<div class="menu-item-bar"> ' +
                 '<div class="menu-item-handle ui-sortable-handle"> ' +
-                '<input type="hidden" name="tk_ud_meta[loop][' + field_slug + '][slug]" value="' + field_slug + '">' +
-                '<input type="hidden" name="tk_ud_meta[loop][' + field_slug + '][label]" value="' + field_slug + '">' +
+                '<input type="hidden" name="tk_ud_meta[' + type + '][' + field_slug + '][slug]" value="' + field_slug + '">' +
+                '<input type="hidden" name="tk_ud_meta[' + type + '][' + field_slug + '][label]" value="' + field_slug + '">' +
                 '<span class="item-title"><span class="menu-item-title">' + field_slug + '</span><span class="is-submenu" style="display: none;">sub item</span></span> ' +
                 '<span class="item-controls">' +
                 '<span class="item-type">' +
-                '<input type="checkbox" name="tk_ud_meta[loop][' + field_slug + '][view_label]" value="' + field_slug + '">View Label </span>' +
+                '<input type="checkbox" name="tk_ud_meta[' + type + '][' + field_slug + '][view_label]" value="' + field_slug + '">View Label </span>' +
                 '<a href="#" data-slug="' + field_slug + '" class="delete_loop_meta">Delete</a>' +
                 ' </span> ' +
 
@@ -49,9 +51,6 @@ jQuery(document).ready(function (jQuery) {
                 '</div> ' +
                 '</li>');
         }
-
-
-
 
         jQuery(this).val('none');
 
