@@ -101,6 +101,10 @@ class TK_Ultimate_Directory {
 		require_once( TK_UD_INCLUDES_PATH . '/admin/tk-ud-metabox.php' );
 		require_once( TK_UD_INCLUDES_PATH . '/admin/tk-ud-admin.php' );
 		require_once( TK_UD_INCLUDES_PATH . '/ultimate-directory.php' );
+		require_once( TK_UD_INCLUDES_PATH . '/shortcodes.php' );
+		require_once( TK_UD_INCLUDES_PATH . '/search.php' );
+		require_once( TK_UD_INCLUDES_PATH . 'resources/ogdbPLZnearby/ogdbPLZnearby2.lib.php' );
+
 
 	}
 
@@ -137,7 +141,8 @@ class TK_Ultimate_Directory {
 //			|| $hook_suffix == 'buddyforms-page-bf-submissions'
 //			|| $hook_suffix == 'buddyforms_page_buddyforms-pricing'
 //		) {
-
+		wp_enqueue_script( 'admin', plugins_url( 'assets/admin/admin.js', __FILE__ ), array( 'jquery' ), '4.0.3' );
+//		wp_enqueue_style( 'buddyforms-select2-css', plugins_url( 'assets/resources/select2/dist/css/select2.min.css', __FILE__ ) );
 //		}
 
 	}

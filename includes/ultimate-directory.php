@@ -143,28 +143,24 @@ function tk_ud_display_meta() {
 		return;
 	}
 
-
+	$post_meta_tmp = '';
 
 	foreach ( $buddyforms[ $form_slug ]['form_fields'] as $key => $customfield ) :
 
-		if ( ! empty( $customfield['slug'] ) ) :
+		if ( ! empty( $customfield['slug'] ) ) {
 
 			$customfield_value = get_post_meta( $post->ID, $customfield['slug'], true );
 
 			if ( ! empty( $customfield_value ) ) {
-				$post_meta_tmp = '<div class="post_meta ' . $customfield['slug'] . '">';
+				$post_meta_tmp .= '<div class="post_meta ' . $customfield['slug'] . '">';
 
-				if ( isset( $customfield['display_name'] ) ) {
-					$post_meta_tmp .= '<label>' . $customfield['name'] . '</label>';
-				}
-
+				$post_meta_tmp .= '<label>' . $customfield['name'] . '</label>';
 
 				if ( is_array( $customfield_value ) ) {
 					$meta_tmp = "<p>" . implode( ',', $customfield_value ) . "</p>";
 				} else {
 					$meta_tmp = "<p>" . $customfield_value . "</p>";
 				}
-
 
 				switch ( $customfield['type'] ) {
 					case 'taxonomy':
@@ -177,14 +173,13 @@ function tk_ud_display_meta() {
 						//$meta_tmp = $customfield_value;
 						break;
 				}
-
+				$post_meta_tmp .= '</div>';
 				if ( $meta_tmp ) {
 					$post_meta_tmp .= $meta_tmp;
 				}
 
 			}
-
-		endif;
+		}
 
 	endforeach;
 

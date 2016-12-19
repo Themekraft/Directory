@@ -123,52 +123,56 @@ function tk_ud_settings_page_tabs_content() { ?>
 									</select>
 									<?php submit_button(); ?>
 								</form>
-
-								<script>
-
-									jQuery(document).ready(function () {
-
-										// User Accordion
-										jQuery("#tk-pu-sortable").sortable({
-											revert: true
-										});
-										jQuery("#draggable").draggable({
-											connectToSortable: "#sortable",
-											helper: "clone",
-											revert: "invalid"
-										});
-										jQuery("ul, li").disableSelection();
-									});
-								</script>
 								<form method="post" action="options.php">
 									<?php
 									$tk_ud_meta = get_option( 'tk_ud_meta' );
+
+									echo '<pre>';
+									print_r($tk_ud_meta);
+									echo '</pre>';
+
 									settings_fields( 'tk_ud_meta' ); ?>
-									<ul id="tk-pu-sortable">
+									<label for="form_fields_select"><p><b>Add form element's to the Loop</b></p></label>
+									<ul id="tk-pu-loop-sortable">
 									<?php
-									if ( isset( $buddyforms[ $tk_ud_buddyforms ][ 'form_fields' ] ) && is_array( $buddyforms[ $tk_ud_buddyforms ][ 'form_fields' ] ) ) { ?>
-										<?php foreach ( $buddyforms[ $tk_ud_buddyforms ][ 'form_fields' ] as $field ) { ?>
+									if ( isset( $tk_ud_meta[ 'loop' ] ) && is_array( $tk_ud_meta[ 'loop' ] ) ) { ?>
+										<?php foreach ( $tk_ud_meta[ 'loop' ] as $field ) { ?>
 
 											<li id="<?php echo $field['slug'] ?>">
 
 												<div class="menu-item-bar">
 													<div class="menu-item-handle ui-sortable-handle">
-														<span class="item-title"><span class="menu-item-title"><?php echo $field['name'] ?></span> <span class="is-submenu" style="display: none;">sub item</span></span>
+														<span class="item-title"><span class="menu-item-title"><?php echo $field['slug'] ?></span> <span class="is-submenu" style="display: none;">sub item</span></span>
 														<span class="item-controls">
 															<span class="item-type">
-																<input type="checkbox" name="tk_ud_meta[<?php echo $field['slug'] ?>][loop]" value="<?php echo $field['slug'] ?>"> Add to loop
-																<input type="checkbox" name="tk_ud_meta[<?php echo $field['slug'] ?>][single]" value="<?php echo $field['slug'] ?>"> Add to Single
+																<input type="hidden" name="tk_ud_meta[loop][<?php echo $field['slug'] ?>][slug]" value="<?php echo $field['slug'] ?>">
+																<input type="checkbox" name="tk_ud_meta[loop][<?php echo $field['slug'] ?>][view_label]" value="view"> View Label
 															</span>
+															<a href="#" data-slug="<?php echo $field['slug'] ?>" class="delete_loop_meta">Delete</a>
 														</span>
 													</div>
 												</div>
 											</li>
 											<?php
 										}
+									} else {
+										echo 'No Fields to display for the Loop! Add some now! ';
 									}
-									?><?php submit_button(); ?>
+									?>
+									</ul>
+
+									<select id="form_fields_select">
+										<option value="none">Select a form field to add it to the loop list</option>
+										<?php
+										if ( isset( $buddyforms[$tk_ud_buddyforms]['form_fields'] ) && is_array( $buddyforms[$tk_ud_buddyforms]['form_fields'] ) ) {
+											foreach ( $buddyforms[$tk_ud_buddyforms]['form_fields'] as $field ) {
+												echo '<option value="' . $field["slug"] . '">' . $field["name"] . '</option>';
+											}
+										}
+										?>
+									</select>
+									<?php submit_button(); ?>
 										</form>
-								</ul>
 
 							</div><!-- .inside -->
 						</div><!-- .postbox -->
