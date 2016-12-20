@@ -129,7 +129,7 @@ function tk_ud_display_meta() {
 		return;
 	}
 
-	$form_slug = 'directory';//get_post_meta( $post->ID, '_bf_form_slug', true );
+	$form_slug = get_option( 'tk_ud_buddyforms' );
 
 	if ( ! isset( $form_slug ) ) {
 		return;
@@ -143,9 +143,22 @@ function tk_ud_display_meta() {
 		return;
 	}
 
+
+	$tk_ud_meta = get_option( 'tk_ud_meta' );
+
 	$post_meta_tmp = '';
 
-	foreach ( $buddyforms[ $form_slug ]['form_fields'] as $key => $customfield ) :
+	foreach ( $tk_ud_meta['single'] as $key => $meta ) :
+
+
+		$customfield = buddyforms_get_form_field_by_slug($form_slug, $meta['slug']);
+
+
+		if( !isset( $customfield ) ){
+			continue;
+		}
+
+
 
 		if ( ! empty( $customfield['slug'] ) ) {
 
@@ -269,4 +282,15 @@ function aaabuddyforms_locate_template( $slug ) {
 	// Do the include
 	include( $template_path );
 
+}
+
+function buddyforms_get_form_field_by_slug($form_slug,$slug){
+	global $buddyforms;
+
+	foreach( $buddyforms[ $form_slug ]['form_fields'] as $field_key => $field ){
+		if( $field['slug'] == $slug ){
+			return $field;
+		}
+	}
+	return false;
 }
