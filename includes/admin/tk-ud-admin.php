@@ -1,20 +1,23 @@
 <?php
 
-
-//
-// Add the Settings Page to the Settings Menu
-//
+/**
+ * Add the Settings Page to the Directory Post Type
+ *
+ * @package Ultimate Directory
+ * @since 0.1
+ */
 function tk_ud_settings_menu() {
-
 	add_submenu_page( 'edit.php?post_type=ultimate_directory', __( 'Settings', 'tk_ud' ), __( 'Settings', 'tk_pm' ), 'manage_options', 'tk_ud_settings', 'tk_ud_settings_page' );
-
 }
 
 add_action( 'admin_menu', 'tk_ud_settings_menu' );
 
-//
-// Settings Page Content
-//
+/**
+ * Settings Page Content
+ *
+ * @package Ultimate Directory
+ * @since 0.1
+ */
 function tk_ud_settings_page() { ?>
 
 	<div class="wrap">
@@ -37,6 +40,9 @@ function tk_ud_settings_page() { ?>
  * Settings Tabs Navigation
  *
  * @param string $current
+ *
+ * @package Ultimate Directory
+ * @since 0.1
  */
 function tk_ud_admin_tabs( $current = 'homepage' ) {
 	$tabs = array( 'general' => 'General Settings' );
@@ -57,8 +63,8 @@ function tk_ud_admin_tabs( $current = 'homepage' ) {
  * @param string $current
  */
 function tk_ud_register_option() {
-	register_setting( 'tk_ud_buddyforms', 'tk_ud_buddyforms', 'tk_ud_buddyforms_sanitize' );
-	register_setting( 'tk_ud_meta', 'tk_ud_meta', 'tk_ud_buddyforms_sanitize' );
+	register_setting( 'tk_ud_form_slug', 'tk_ud_form_slug', 'tk_ud_form_slug_sanitize' );
+	register_setting( 'tk_ud_meta', 'tk_ud_meta', 'tk_ud_form_slug_sanitize' );
 }
 
 add_action( 'admin_init', 'tk_ud_register_option' );
@@ -68,7 +74,7 @@ add_action( 'admin_init', 'tk_ud_register_option' );
  *
  * @return mixed
  */
-function tk_ud_buddyforms_sanitize( $new ) {
+function tk_ud_form_slug_sanitize( $new ) {
 	// todo: Sanitize
 	return $new;
 }
@@ -100,8 +106,8 @@ function tk_ud_settings_page_tabs_content() { ?>
 
 			switch ( $tab ) {
 				case 'general' :
-					global $buddyforms;
-					$tk_ud_buddyforms = get_option( 'tk_ud_buddyforms' ); ?>
+					global $buddyforms; ?>
+
 					<div class="metabox-holder">
 						<div class="postbox">
 							<h3>
@@ -109,14 +115,13 @@ function tk_ud_settings_page_tabs_content() { ?>
 							</h3>
 							<div class="inside">
 								<form method="post" action="options.php">
-
-									<?php settings_fields( 'tk_ud_buddyforms' ); ?>
-									<?php $tk_ud_buddyforms = get_option( 'tk_ud_buddyforms', true ); ?>
-									<select id="tk-ud-buddyforms" name="tk_ud_buddyforms" >
+									<?php settings_fields( 'tk_ud_form_slug' ); ?>
+									<?php $tk_ud_form_slug = get_option( 'tk_ud_form_slug', true ); ?>
+									<select id="tk-ud-buddyforms" name="tk_ud_form_slug" >
 									<?php if( isset( $buddyforms ) ){
 										foreach ( $buddyforms as $buddyform ) {
 
-											echo '<option ' . selected($tk_ud_buddyforms, $buddyform['slug']) . '  value="' . $buddyform['slug'] . '">' . $buddyform['name'] . '</option>';
+											echo '<option ' . selected($tk_ud_form_slug, $buddyform['slug']) . '  value="' . $buddyform['slug'] . '">' . $buddyform['name'] . '</option>';
 										}
 									}
 									?>
@@ -124,95 +129,17 @@ function tk_ud_settings_page_tabs_content() { ?>
 									<?php submit_button(); ?>
 								</form>
 								<form method="post" action="options.php">
-									<?php
-									$tk_ud_meta = get_option( 'tk_ud_meta' );
 
-//									echo '<pre>';
-//									print_r($tk_ud_meta);
-//									echo '</pre>';
+									<?php settings_fields( 'tk_ud_meta' ); ?>
 
-									settings_fields( 'tk_ud_meta' ); ?>
-									<label for="form_fields_select"><p><b>Add form element's to the Loop</b></p></label>
-									<ul id="tk-pu-loop" class="tk-pu-sortable">
-									<?php
-									if ( isset( $tk_ud_meta[ 'loop' ] ) && is_array( $tk_ud_meta[ 'loop' ] ) ) { ?>
-										<?php foreach ( $tk_ud_meta[ 'loop' ] as $field ) { ?>
+									<label for="form-fields-select"><p><b>Add form element's to the Loop</b></p></label>
+									<?php tk_ud_get_field_list('loop'); ?>
 
-											<li id="<?php echo $field['slug'] ?>">
-												<div class="menu-item-bar">
-													<div class="menu-item-handle ui-sortable-handle">
-														<span class="item-title"><span class="menu-item-title"><?php echo $field['slug'] ?></span> <span class="is-submenu" style="display: none;">sub item</span></span>
-														<span class="item-controls">
-															<span class="item-type">
-																<input type="hidden" name="tk_ud_meta[loop][<?php echo $field['slug'] ?>][slug]" value="<?php echo $field['slug'] ?>">
-																<input type="checkbox" name="tk_ud_meta[loop][<?php echo $field['slug'] ?>][view_label]" value="view"> View Label
-															</span>
-															<a href="#" data-slug="<?php echo $field['slug'] ?>" class="delete_loop_meta">Delete</a>
-														</span>
-													</div>
-												</div>
-											</li>
-											<?php
-										}
-									} else {
-										echo 'No Fields to display for the Loop! Add some now! ';
-									}
-									?>
-									</ul>
+									<label for="form-fields-select"><p><b>Add form element's to the Single</b></p></label>
+									<?php tk_ud_get_field_list('single'); ?>
 
-									<select data-type="loop" id="form_fields_select">
-										<option value="none">Select a form field to add it to the Single list</option>
-										<?php
-										if ( isset( $buddyforms[$tk_ud_buddyforms]['form_fields'] ) && is_array( $buddyforms[$tk_ud_buddyforms]['form_fields'] ) ) {
-											foreach ( $buddyforms[$tk_ud_buddyforms]['form_fields'] as $field ) {
-												echo '<option value="' . $field["slug"] . '">' . $field["name"] . '</option>';
-											}
-										}
-										?>
-									</select>
-
-
-									<label for="form_fields_select"><p><b>Add form element's to the Single</b></p></label>
-									<ul id="tk-pu-single" class="tk-pu-sortable">
-										<?php
-										if ( isset( $tk_ud_meta[ 'single' ] ) && is_array( $tk_ud_meta[ 'single' ] ) ) { ?>
-											<?php foreach ( $tk_ud_meta[ 'single' ] as $field ) { ?>
-
-												<li id="<?php echo $field['slug'] ?>">
-
-													<div class="menu-item-bar">
-														<div class="menu-item-handle ui-sortable-handle">
-															<span class="item-title"><span class="menu-item-title"><?php echo $field['slug'] ?></span> <span class="is-submenu" style="display: none;">sub item</span></span>
-														<span class="item-controls">
-															<span class="item-type">
-																<input type="hidden" name="tk_ud_meta[single][<?php echo $field['slug'] ?>][slug]" value="<?php echo $field['slug'] ?>">
-																<input type="checkbox" name="tk_ud_meta[single][<?php echo $field['slug'] ?>][view_label]" value="view"> View Label
-															</span>
-															<a href="#" data-slug="<?php echo $field['slug'] ?>" class="delete_loop_meta">Delete</a>
-														</span>
-														</div>
-													</div>
-												</li>
-												<?php
-											}
-										} else {
-											echo 'No Fields to display for the Single! Add some now! ';
-										}
-										?>
-									</ul>
-
-									<select data-type="single" id="form_fields_select">
-										<option value="none">Select a form field to add it to the loop list</option>
-										<?php
-										if ( isset( $buddyforms[$tk_ud_buddyforms]['form_fields'] ) && is_array( $buddyforms[$tk_ud_buddyforms]['form_fields'] ) ) {
-											foreach ( $buddyforms[$tk_ud_buddyforms]['form_fields'] as $field ) {
-												echo '<option value="' . $field["slug"] . '">' . $field["name"] . '</option>';
-											}
-										}
-										?>
-									</select>
 									<?php submit_button(); ?>
-										</form>
+								</form>
 
 							</div><!-- .inside -->
 						</div><!-- .postbox -->
@@ -230,4 +157,56 @@ function tk_ud_settings_page_tabs_content() { ?>
 }
 
 function tk_ud_settings_page_sidebar() {
+}
+
+function tk_ud_get_field_list( $type = 'single' ){
+	global $buddyforms;
+
+	$tk_ud_form_slug = get_option( 'tk_ud_form_slug' );
+	$tk_ud_meta      = get_option( 'tk_ud_meta' ); ?>
+
+	<ul id="tk-pu-<?php echo $type ?>" class="tk-pu-sortable">
+		<?php if ( isset( $tk_ud_meta[ $type ] ) && is_array( $tk_ud_meta[ $type ] ) ) {
+			foreach ( $tk_ud_meta[ $type ] as $field ) {
+
+			$customfield = buddyforms_get_form_field_by_slug($tk_ud_form_slug, $field['slug']);
+
+			if(!$customfield)
+				continue
+			?>
+
+			<li id="<?php echo $customfield['slug'] ?>">
+				<div class="menu-item-bar">
+					<div class="menu-item-handle ui-sortable-handle">
+						<span class="item-title"><span class="menu-item-title"><?php echo $customfield['name'] ?></span> <span class="is-submenu" style="display: none;">sub item</span></span>
+							<span class="item-controls">
+								<span class="item-type">
+									<input type="hidden" name="tk_ud_meta[<?php echo $type ?>][<?php echo $customfield['slug'] ?>][slug]" value="<?php echo $customfield['slug'] ?>">
+									<input type="hidden" name="tk_ud_meta[<?php echo $type ?>][<?php echo $customfield['name'] ?>][slug]" value="<?php echo $customfield['name'] ?>">
+									<input type="checkbox" name="tk_ud_meta[<?php echo $type ?>][<?php echo $customfield['slug'] ?>][view_label]" value="view"> View Label
+								</span>
+								<a href="#" data-type="<?php echo $type ?>" data-slug="<?php echo $customfield['slug'] ?>" class="tk-ud-delete-meta">Delete</a>
+							</span>
+					</div>
+				</div>
+			</li>
+				<?php
+			}
+		} else {
+			echo 'No Fields to display so far. Add some now! ';
+		}
+		?>
+	</ul>
+	<select data-type="<?php echo $type ?>" class="form-fields-select">
+		<option value="none">Select a form field to add it to the <?php echo $type ?> list</option>
+		<?php
+		if ( isset( $buddyforms[$tk_ud_form_slug]['form_fields'] ) && is_array( $buddyforms[$tk_ud_form_slug]['form_fields'] ) ) {
+			foreach ( $buddyforms[$tk_ud_form_slug]['form_fields'] as $field ) {
+				echo '<option data-name="' . $field["name"] . '" value="' . $field["slug"] . '">' . $field["name"] . '</option>';
+			}
+		}
+		?>
+	</select>
+
+	<?php
 }

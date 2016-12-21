@@ -91,26 +91,26 @@ function tk_ud_register_tags() {
 // End tk_ud_register_tags()
 }
 
-
-
-
-
-
-
-add_filter( 'the_content', 'my_the_content_filter', 20 );
+// Add Fields to the content
+add_filter( 'the_content', 'tk_ud_content_filter', 20 );
+add_filter( 'the_excerpt', 'tk_ud_content_filter', 20 );
 /**
  * Add a icon to the beginning of every post page.
  *
  * @uses is_single()
  */
-function my_the_content_filter( $content ) {
+function tk_ud_content_filter( $content ) {
 	global $post;
 
 	if ( is_single() ){
 		if($post->post_type == 'ultimate_directory'){
-			// Add image to the beginning of each page
-			$content = tk_ud_display_meta();
+			$content = tk_ud_display_meta('single');
+		}
+	}
 
+	if ( is_archive() ){
+		if($post->post_type == 'ultimate_directory'){
+			$content = tk_ud_display_meta('loop');
 		}
 	}
 
@@ -118,7 +118,8 @@ function my_the_content_filter( $content ) {
 	return $content;
 }
 
-function tk_ud_display_meta() {
+
+function tk_ud_display_meta($type = 'single') {
 	global $buddyforms, $post;
 
 	if ( is_admin() ) {
@@ -143,22 +144,17 @@ function tk_ud_display_meta() {
 		return;
 	}
 
-
 	$tk_ud_meta = get_option( 'tk_ud_meta' );
 
 	$post_meta_tmp = '';
 
-	foreach ( $tk_ud_meta['single'] as $key => $meta ) :
+	if ( isset( $tk_ud_meta[ $type ] ) ) { foreach ( $tk_ud_meta[ $type ] as $key => $meta ) {
 
+		$customfield = buddyforms_get_form_field_by_slug( $form_slug, $meta['slug'] );
 
-		$customfield = buddyforms_get_form_field_by_slug($form_slug, $meta['slug']);
-
-
-		if( !isset( $customfield ) ){
+		if ( ! isset( $customfield ) ) {
 			continue;
 		}
-
-
 
 		if ( ! empty( $customfield['slug'] ) ) {
 
@@ -194,103 +190,21 @@ function tk_ud_display_meta() {
 			}
 		}
 
-	endforeach;
+	}
+	}
 
 	return $post_meta_tmp;
 
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//add_filter('single_template','booklistTpl_single');
-//add_filter('archive_template','booklistTpl_archive');
-
-
-//route single- template
-function booklistTpl_single($single_template){
-	global $post;
-	$found = locate_template('single-ultimate-directory.php');
-	if($post->post_type == 'ultimate_directory' && $found == ''){
-		$single_template = TK_UD_TEMPLATES_PATH . 'single-ultimate-directory.php';
-	}
-	return $single_template;
-}
-
-//route archive- template
-function booklistTpl_archive($template){
-	if(is_post_type_archive('ultimate_directory')){
-		$theme_files = array('archive-ultimate-directory.php');
-		$exists_in_theme = locate_template($theme_files, false);
-		if($exists_in_theme == ''){
-			return TK_UD_TEMPLATES_PATH . 'archive-ultimate-directory.php';
-		}
-	}
-	return $template;
-}
-
-/**
- * Locate a template
- *
- * @package BuddyForms
- * @since 0.1 beta
- *
- * @param $slug
- */
-function aaabuddyforms_locate_template( $slug ) {
-	global $buddyforms, $bp, $the_lp_query, $current_user, $form_slug, $post_id;
-
-	// Get the current user so its not needed in the templates
-	$current_user  = wp_get_current_user();
-
-	// create the plugin template path
-	$template_path = BUDDYFORMS_TEMPLATE_PATH .'buddyforms/'. $slug . '.php';
-
-	// Check if template exist in the child or parent theme and use this path if available
-	if ( $template_file = locate_template( "buddyforms/{$slug}.php", false, false)) {
-		$template_path = $template_file;
-	}
-
-	// Do the include
-	include( $template_path );
-
-}
-
 function buddyforms_get_form_field_by_slug($form_slug,$slug){
 	global $buddyforms;
 
-	foreach( $buddyforms[ $form_slug ]['form_fields'] as $field_key => $field ){
+	if( isset($buddyforms[ $form_slug ]['form_fields']) ) : foreach( $buddyforms[ $form_slug ]['form_fields'] as $field_key => $field ){
 		if( $field['slug'] == $slug ){
 			return $field;
 		}
-	}
+	} endif;
 	return false;
 }
