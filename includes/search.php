@@ -55,8 +55,42 @@ class TK_Ajax_Search
 	public function search()
 	{
 		global $posts;
-		$args  = array ( 's' => $_POST['search_term'] );
+
+
+		$search_term = isset($_POST['search_term']) ? $_POST['search_term'] : '';
+
+		$plzs = false;
+		if( isset($_POST['search_plz']) ){
+			$search_plz = $_POST['search_plz'];
+			$search_distance = isset($_POST['search_distance']) ? $_POST['search_distance'] : 0;
+			$plzs = ogdbPLZnearby($search_plz, $search_distance);
+		}
+
+		$search_cat = isset($_POST['search_cat']) ? $_POST['search_cat'] : false;
+
+
+
+
+		// Add the search string to the query
+		$args  = array (
+			's' => $search_term,
+			'post_type' => 'ultimate_directory',
+		);
+
+		// Add the plzs string to the query
+		if($plzs){
+			$plz_str = implode(',',$plzs);
+			$args['directory_plz'] = $plz_str;
+		}
+
+		// Add the category string to the query
+		if($search_cat){
+			$search_cat_str = implode(',',$search_cat);
+			$args['directory_categories'] = $search_cat_str;
+		}
+
 		$args  = apply_filters( 'TK_Ajax_Search_args', $args );
+
 		$posts = get_posts( $args );
 		if ( $posts )
 		{
@@ -97,10 +131,37 @@ class TK_Ajax_Search
 	}
 }
 
-add_filter( 'TK_Ajax_Search_args', 'restrict_t5_search' );
+//add_filter( 'TK_Ajax_Search_args', 'restrict_t5_search' );
+//
+//function restrict_t5_search( $args )
+//{
+//	$args['post_type'] = array ( 'ultimate_directory' );
+//	return $args;
+//}
 
-function restrict_t5_search( $args )
-{
-	$args['post_type'] = array ( 'ultimate_directory' );
-	return $args;
+add_action( 'init', 'tk_ud_register_search_plz' );
+function tk_ud_register_search_plz() {
+	$labels = array(
+		"name" => __( 'PLZ', 'tk_ud' ),
+	);
+
+	$args = array(
+		"label" => __( 'PLZ', 'tk_ud' ),
+		"labels" => $labels,
+		"public" => true,
+		"hierarchical" => false,
+		"label" => "PLZ",
+		"show_ui" => true,
+		"show_in_menu" => true,
+		"show_in_nav_menus" => true,
+		"query_var" => true,
+		"rewrite" => array( 'slug' => 'plz', 'with_front' => true,  'hierarchical' => false, ),
+		"show_admin_column" => true,
+		"show_in_rest" => true,
+		"rest_base" => "directory-plz",
+		"show_in_quick_edit" => true,
+	);
+	register_taxonomy( "directory_plz", array( "ultimate_directory" ), $args );
+
+// End tk_ud_register_categories()
 }

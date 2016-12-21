@@ -32,7 +32,7 @@ jQuery(document).ready(function () {
             jQuery.post(
                 T5Ajax.ajaxurl,
                 {
-                    action:     T5Ajax.action,
+                    action: T5Ajax.action,
                     search_term: jQuery(this).val()
                 },
                 function( response ) {
@@ -44,5 +44,36 @@ jQuery(document).ready(function () {
 
 
     });
+
+    jQuery(document).on('submit', '#tk-ud-searchform', function () {
+            alert('search');
+
+        var s           = jQuery('#s').val();
+        var s_plz       = jQuery('#s-plz').val();
+        var s_distance  = jQuery('#s-distance').val();
+        var s_cat       = jQuery('#s-cat').val();
+
+        console.log(s);
+        console.log(s_plz);
+        console.log(s_distance);
+
+        jQuery.post(
+            T5Ajax.ajaxurl,
+            {
+                action: T5Ajax.action,
+                search_terms:    s,
+                search_plz:      s_plz,
+                search_distance: s_distance,
+                search_cat: s_cat
+            },
+            function( response ) {
+
+                jQuery('#result').html( response );
+
+            }
+        );
+        return false;
+    });
+
 
 });

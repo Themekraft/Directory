@@ -6,13 +6,13 @@ function tk_ud_search( $atts ) {
 	?>
 
 	<div class="panel">
-		<h2>Search Videos</h2>
-		<div id="my-search">
-			<form role="search" method="get" id="searchform" action="" >
-				<input type="text" value="" name="s[]" id="s" />
-				<?php wp_dropdown_categories(array('taxonomy' => 'directory_categories')); ?>
-				<input type="number" value="" name="s[]" id="plz" />
-				<input type="number" value="" name="s[]" id="umkreis" />
+		<h2><?php _e( 'Search', 'tk_ud' ); ?></h2>
+		<div id="tk-ud-search">
+			<form role="search" method="get" id="tk-ud-searchform" action="" >
+				<input type="text" value="" name="s" id="s" />
+				<?php wp_dropdown_categories(array('taxonomy' => 'directory_categories', 'id' => 's-cat')); ?>
+				<input type="number" value="" name="s_plz" id="s-plz" />
+				<input type="number" value="" name="s_distance" id="s-distance" />
 				<input type="submit" id="searchsubmit" value="Search" />
 			</form>
 		</div>
