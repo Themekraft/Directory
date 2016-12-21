@@ -11,9 +11,10 @@ function tk_ud_search( $atts ) {
 			<form role="search" method="get" id="tk-ud-searchform" action="" >
 				<input type="text" value="" name="s" id="s" />
 				<?php wp_dropdown_categories(array('taxonomy' => 'directory_categories', 'id' => 's-cat')); ?>
-				<input type="number" value="" name="s_plz" id="s-plz" />
+				<input type="text" value="" name="s_plz" minlength=5 id="s-plz" />
 				<input type="number" value="" name="s_distance" id="s-distance" />
 				<input type="submit" id="searchsubmit" value="Search" />
+				<input type="reset" id="reset" value="Reset" />
 			</form>
 		</div>
 		<div id="result"></div>
