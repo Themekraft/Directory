@@ -159,8 +159,6 @@ class TK_Ultimate_Directory {
 	}
 
 
-
-
 }
 
 new TK_Ultimate_Directory;

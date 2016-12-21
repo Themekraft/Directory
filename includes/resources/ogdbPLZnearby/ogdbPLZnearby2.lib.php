@@ -19,73 +19,78 @@
 *	Final thoughts:
 *	I'm not a developer, if you have questions – ask them and i will try to answer.
 *	If you can make this script better, faster, accurate or whatever ... just do it ;-)
-*/ 
+*/
 
-if ( version_compare(PHP_VERSION,"5.0.0","<") ) {
-	die("ABBRUCH: es wird PHP5 oder hoeher benoetigt.\n"
-		." -> http://de.php.net/downloads.php\n");
+if ( version_compare( PHP_VERSION, "5.0.0", "<" ) ) {
+	die( "ABBRUCH: es wird PHP5 oder hoeher benoetigt.\n"
+	     . " -> http://de.php.net/downloads.php\n" );
 }
 
-define("OGDB_REMOTE_DATA_FILE","http://fa-technik.adfc.de/code/opengeodb/PLZ.tab");
-define("OGDB_LOCAL_DATA_FILE","./PLZ.tab");
+define( "OGDB_REMOTE_DATA_FILE", "http://fa-technik.adfc.de/code/opengeodb/PLZ.tab" );
+define( "OGDB_LOCAL_DATA_FILE", "./PLZ.tab" );
 
-function ogdbPLZnearby($origin,$distance,$getName=false,$getDist=false) {
-	if ( !is_file(OGDB_LOCAL_DATA_FILE) || filesize(OGDB_LOCAL_DATA_FILE)==0 ) {
-		$fileData = file_get_contents(OGDB_REMOTE_DATA_FILE);
-		if ( $fileData == FALSE ) {
-			die("ABBRUCH: konnte Daten nicht laden (".OGDB_REMOTE_DATA_FILE.")\n");
+function ogdbPLZnearby( $origin, $distance, $getName = false, $getDist = false ) {
+	if ( ! is_file( OGDB_LOCAL_DATA_FILE ) || filesize( OGDB_LOCAL_DATA_FILE ) == 0 ) {
+		$fileData = file_get_contents( OGDB_REMOTE_DATA_FILE );
+		if ( $fileData == false ) {
+			die( "ABBRUCH: konnte Daten nicht laden (" . OGDB_REMOTE_DATA_FILE . ")\n" );
 		}
-		if ( file_put_contents(OGDB_LOCAL_DATA_FILE,$fileData) == FALSE ) {
-			die("ABBRUCH: konnte Daten nicht speichern (".OGDB_LOCAL_DATA_FILE.")\n");
+		if ( file_put_contents( OGDB_LOCAL_DATA_FILE, $fileData ) == false ) {
+			die( "ABBRUCH: konnte Daten nicht speichern (" . OGDB_LOCAL_DATA_FILE . ")\n" );
 		}
-		unset($fileData);
+		unset( $fileData );
 	}
-	$fileData = @file_get_contents(OGDB_LOCAL_DATA_FILE);
-	if ( $fileData == FALSE ) {
-		die("ABBRUCH: konnte Daten nicht laden (".OGDB_LOCAL_DATA_FILE.")\n");
+	$fileData = @file_get_contents( OGDB_LOCAL_DATA_FILE );
+	if ( $fileData == false ) {
+		die( "ABBRUCH: konnte Daten nicht laden (" . OGDB_LOCAL_DATA_FILE . ")\n" );
 	}
-	error_reporting(1);
-	$distance = intval($distance);
-	$fileData = explode("\n",$fileData);
-	
+	error_reporting( 1 );
+	$distance = intval( $distance );
+	$fileData = explode( "\n", $fileData );
+
 	/* STEP 1: Loop through the data, search for PLZ, 
 	   transform coordinates to RAD
 	*/
-	for ( $i=1; $i < count($fileData); $i++ ) {
-		$fileRow = explode("\t",$fileData[$i]);
+	for ( $i = 1; $i < count( $fileData ); $i ++ ) {
+		$fileRow = explode( "\t", $fileData[ $i ] );
 		if ( $origin == $fileRow[1] ) {
-			$origin_lon = deg2rad($fileRow[2]);
-			$origin_lat = deg2rad($fileRow[3]);
-			
+			$origin_lon = deg2rad( $fileRow[2] );
+			$origin_lat = deg2rad( $fileRow[3] );
+
 		}
-		
+
 	};
 	/* STEP 2: Loop through the data again, calculate the distance from origin for each item
 	   and store matching items into array	
 	*/
 	$offset = 0;
-	for ( $i=1; $i < count($fileData); $i++ ) {
-		$fileRow = explode("\t",$fileData[$i]);
-		$destination_lon = deg2rad($fileRow[2]);
-		$destination_lat = deg2rad($fileRow[3]);
-		
+	for ( $i = 1; $i < count( $fileData ); $i ++ ) {
+		$fileRow         = explode( "\t", $fileData[ $i ] );
+		$destination_lon = deg2rad( $fileRow[2] );
+		$destination_lat = deg2rad( $fileRow[3] );
+
 		//distance between origin and destination
-		$distance_org_dest = acos(sin($destination_lat)*sin($origin_lat)+cos($destination_lat)*cos($origin_lat)*cos($destination_lon - $origin_lon))*6375;
-		$distance_org_dest = round($distance_org_dest);
-		
-		if ($distance_org_dest <= $distance){
-			if($getName OR $getDist){
-				$returnvalue[$offset]['zip'] = $fileRow[1];
-				if($getName){$returnvalue[$offset]['city'] = $fileRow[4];};
-				if($getDist){$returnvalue[$offset]['dist'] = $distance_org_dest;};
-			} else{
-				$returnvalue[$offset] = $fileRow[1];
+		$distance_org_dest = acos( sin( $destination_lat ) * sin( $origin_lat ) + cos( $destination_lat ) * cos( $origin_lat ) * cos( $destination_lon - $origin_lon ) ) * 6375;
+		$distance_org_dest = round( $distance_org_dest );
+
+		if ( $distance_org_dest <= $distance ) {
+			if ( $getName OR $getDist ) {
+				$returnvalue[ $offset ]['zip'] = $fileRow[1];
+				if ( $getName ) {
+					$returnvalue[ $offset ]['city'] = $fileRow[4];
+				};
+				if ( $getDist ) {
+					$returnvalue[ $offset ]['dist'] = $distance_org_dest;
+				};
+			} else {
+				$returnvalue[ $offset ] = $fileRow[1];
 			}
-			
-			$offset++;
+
+			$offset ++;
 		}
-	
-	}	
+
+	}
+
 	return $returnvalue;
 }
 

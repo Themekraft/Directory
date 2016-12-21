@@ -33,10 +33,10 @@ jQuery(document).ready(function (jQuery) {
         var name = jQuery(this).find(':selected').data('name');
 
 
-        if(jQuery('#tk-pu-' + type + ' #' + slug).length) {
+        if (jQuery('#tk-pu-' + type + ' #' + slug).length) {
             alert('This Form Field is already in the list!')
         } else {
-            jQuery('#tk-pu-' + type ).append('<li id="' + slug + '"> ' +
+            jQuery('#tk-pu-' + type).append('<li id="' + slug + '"> ' +
                 '<div class="menu-item-bar"> ' +
                 '<div class="menu-item-handle ui-sortable-handle"> ' +
                 '<input type="hidden" name="tk_ud_meta[' + type + '][' + slug + '][slug]" value="' + slug + '">' +

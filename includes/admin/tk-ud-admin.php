@@ -117,14 +117,14 @@ function tk_ud_settings_page_tabs_content() { ?>
 								<form method="post" action="options.php">
 									<?php settings_fields( 'tk_ud_form_slug' ); ?>
 									<?php $tk_ud_form_slug = get_option( 'tk_ud_form_slug', true ); ?>
-									<select id="tk-ud-buddyforms" name="tk_ud_form_slug" >
-									<?php if( isset( $buddyforms ) ){
-										foreach ( $buddyforms as $buddyform ) {
+									<select id="tk-ud-buddyforms" name="tk_ud_form_slug">
+										<?php if ( isset( $buddyforms ) ) {
+											foreach ( $buddyforms as $buddyform ) {
 
-											echo '<option ' . selected($tk_ud_form_slug, $buddyform['slug']) . '  value="' . $buddyform['slug'] . '">' . $buddyform['name'] . '</option>';
+												echo '<option ' . selected( $tk_ud_form_slug, $buddyform['slug'] ) . '  value="' . $buddyform['slug'] . '">' . $buddyform['name'] . '</option>';
+											}
 										}
-									}
-									?>
+										?>
 									</select>
 									<?php submit_button(); ?>
 								</form>
@@ -133,10 +133,11 @@ function tk_ud_settings_page_tabs_content() { ?>
 									<?php settings_fields( 'tk_ud_meta' ); ?>
 
 									<label for="form-fields-select"><p><b>Add form element's to the Loop</b></p></label>
-									<?php tk_ud_get_field_list('loop'); ?>
+									<?php tk_ud_get_field_list( 'loop' ); ?>
 
-									<label for="form-fields-select"><p><b>Add form element's to the Single</b></p></label>
-									<?php tk_ud_get_field_list('single'); ?>
+									<label for="form-fields-select"><p><b>Add form element's to the Single</b></p>
+									</label>
+									<?php tk_ud_get_field_list( 'single' ); ?>
 
 									<?php submit_button(); ?>
 								</form>
@@ -159,7 +160,7 @@ function tk_ud_settings_page_tabs_content() { ?>
 function tk_ud_settings_page_sidebar() {
 }
 
-function tk_ud_get_field_list( $type = 'single' ){
+function tk_ud_get_field_list( $type = 'single' ) {
 	global $buddyforms;
 
 	$tk_ud_form_slug = get_option( 'tk_ud_form_slug' );
@@ -169,27 +170,36 @@ function tk_ud_get_field_list( $type = 'single' ){
 		<?php if ( isset( $tk_ud_meta[ $type ] ) && is_array( $tk_ud_meta[ $type ] ) ) {
 			foreach ( $tk_ud_meta[ $type ] as $field ) {
 
-			$customfield = buddyforms_get_form_field_by_slug($tk_ud_form_slug, $field['slug']);
+				$customfield = buddyforms_get_form_field_by_slug( $tk_ud_form_slug, $field['slug'] );
 
-			if(!$customfield)
-				continue
-			?>
+				if ( ! $customfield )
+					continue
+				?>
 
-			<li id="<?php echo $customfield['slug'] ?>">
-				<div class="menu-item-bar">
-					<div class="menu-item-handle ui-sortable-handle">
-						<span class="item-title"><span class="menu-item-title"><?php echo $customfield['name'] ?></span> <span class="is-submenu" style="display: none;">sub item</span></span>
+				<li id="<?php echo $customfield['slug'] ?>">
+					<div class="menu-item-bar">
+						<div class="menu-item-handle ui-sortable-handle">
+							<span class="item-title"><span
+									class="menu-item-title"><?php echo $customfield['name'] ?></span> <span
+									class="is-submenu" style="display: none;">sub item</span></span>
 							<span class="item-controls">
 								<span class="item-type">
-									<input type="hidden" name="tk_ud_meta[<?php echo $type ?>][<?php echo $customfield['slug'] ?>][slug]" value="<?php echo $customfield['slug'] ?>">
-									<input type="hidden" name="tk_ud_meta[<?php echo $type ?>][<?php echo $customfield['name'] ?>][slug]" value="<?php echo $customfield['name'] ?>">
-									<input type="checkbox" name="tk_ud_meta[<?php echo $type ?>][<?php echo $customfield['slug'] ?>][view_label]" value="view"> View Label
+									<input type="hidden"
+									       name="tk_ud_meta[<?php echo $type ?>][<?php echo $customfield['slug'] ?>][slug]"
+									       value="<?php echo $customfield['slug'] ?>">
+									<input type="hidden"
+									       name="tk_ud_meta[<?php echo $type ?>][<?php echo $customfield['name'] ?>][slug]"
+									       value="<?php echo $customfield['name'] ?>">
+									<input type="checkbox"
+									       name="tk_ud_meta[<?php echo $type ?>][<?php echo $customfield['slug'] ?>][view_label]"
+									       value="view"> View Label
 								</span>
-								<a href="#" data-type="<?php echo $type ?>" data-slug="<?php echo $customfield['slug'] ?>" class="tk-ud-delete-meta">Delete</a>
+								<a href="#" data-type="<?php echo $type ?>"
+								   data-slug="<?php echo $customfield['slug'] ?>" class="tk-ud-delete-meta">Delete</a>
 							</span>
+						</div>
 					</div>
-				</div>
-			</li>
+				</li>
 				<?php
 			}
 		} else {
@@ -200,8 +210,8 @@ function tk_ud_get_field_list( $type = 'single' ){
 	<select data-type="<?php echo $type ?>" class="form-fields-select">
 		<option value="none">Select a form field to add it to the <?php echo $type ?> list</option>
 		<?php
-		if ( isset( $buddyforms[$tk_ud_form_slug]['form_fields'] ) && is_array( $buddyforms[$tk_ud_form_slug]['form_fields'] ) ) {
-			foreach ( $buddyforms[$tk_ud_form_slug]['form_fields'] as $field ) {
+		if ( isset( $buddyforms[ $tk_ud_form_slug ]['form_fields'] ) && is_array( $buddyforms[ $tk_ud_form_slug ]['form_fields'] ) ) {
+			foreach ( $buddyforms[ $tk_ud_form_slug ]['form_fields'] as $field ) {
 				echo '<option data-name="' . $field["name"] . '" value="' . $field["slug"] . '">' . $field["name"] . '</option>';
 			}
 		}
