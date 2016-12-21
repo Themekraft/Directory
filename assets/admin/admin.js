@@ -19,10 +19,10 @@ jQuery(document).ready(function (jQuery) {
     });
 
     // Remove fields from the accordion
-    jQuery(document.body).on('click', '.delete_meta', function () {
+    jQuery(document.body).on('click', '.tk-ud-delete-meta', function () {
         var slug = jQuery(this).attr('data-slug')
         var type = jQuery(this).attr('data-type')
-        jQuery('#tk-pu-' + type + '#' + slug).remove();
+        jQuery('#tk-pu-' + type + ' #' + slug).remove();
     });
 
     // Add new field to the Directory Settings Accordion for the Loop and Single
