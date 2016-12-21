@@ -23,12 +23,12 @@ function tk_ud_search( $atts ) {
 	$tmp = ob_get_clean();
 
 
-	$was = ogdbPLZnearby('40227','3', true, true);
-
-
-	echo '<pre>';
-	print_r( $was );
-	echo '</pre>';
+//	$was = ogdbPLZnearby('40227','3', true, true);
+//
+//
+//	echo '<pre>';
+//	print_r( $was );
+//	echo '</pre>';
 
 	return $tmp;
 }

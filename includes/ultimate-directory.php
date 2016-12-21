@@ -198,6 +198,30 @@ function tk_ud_display_meta($type = 'single') {
 }
 
 
+/**
+ * Locate a template
+ *
+ * @package BuddyForms
+ * @since 0.1 beta
+ *
+ * @param $slug
+ */
+function tk_ud_locate_template( $slug ) {
+	global $posts;
+
+	// create the plugin template path
+	$template_path = TK_UD_TEMPLATES_PATH  . $slug . '.php';
+
+	// Check if template exist in the child or parent theme and use this path if available
+	if ( $template_file = locate_template( "tk_ud/{$slug}.php", false, false)) {
+		$template_path = $template_file;
+	}
+
+	// Do the include
+	include( $template_path );
+
+}
+
 function buddyforms_get_form_field_by_slug($form_slug,$slug){
 	global $buddyforms;
 

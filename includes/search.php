@@ -1,11 +1,11 @@
 <?php
 
-add_action( 'wp_loaded', array ( 'T5_Ajax_Search', 'init' ) );
+add_action( 'wp_loaded', array ( 'TK_Ajax_Search', 'init' ) );
 
 /**
  * Ajaxify the search form.
  */
-class T5_Ajax_Search
+class TK_Ajax_Search
 {
 	/**
 	 * The main instance. You can create further instances for unit tests.
@@ -17,7 +17,7 @@ class T5_Ajax_Search
 	 * Action name used by AJAX callback handlers
 	 * @type string
 	 */
-	protected $action = 't5_ajax_search';
+	protected $action = 'TK_Ajax_Search';
 
 	/**
 	 * Handler for initial load.
@@ -48,46 +48,27 @@ class T5_Ajax_Search
 	/**
 	 * Callback for AJAX search.
 	 *
-	 * @wp-hook wp_ajax_t5_ajax_search
-	 * @wp-hook wp_ajax_nopriv_t5_ajax_search
+	 * @wp-hook wp_ajax_TK_Ajax_Search
+	 * @wp-hook wp_ajax_nopriv_TK_Ajax_Search
 	 * @return void
 	 */
 	public function search()
 	{
+		global $posts;
 		$args  = array ( 's' => $_POST['search_term'] );
-		$args  = apply_filters( 't5_ajax_search_args', $args );
+		$args  = apply_filters( 'TK_Ajax_Search_args', $args );
 		$posts = get_posts( $args );
 		if ( $posts )
 		{
-			$this->render_search_results( $posts );
+			tk_ud_locate_template('search-loop');
 		}
 		else
 		{
-			print '<b>nothing found</b>';
+			print __('Nothing found' , 'tk_ud');
 		}
 		exit;
 	}
 
-	/**
-	 * Create markup from $posts
-	 *
-	 * @param array $posts Array of post objects
-	 * @return void
-	 */
-	protected function render_search_results( $posts )
-	{
-		print '<ul class="t5-ajax-search-results">';
-
-		foreach ( $posts as $post )
-		{
-			printf(
-				'<li><a href="%1$s">%2$s</a></li>',
-				get_permalink( $post->ID ),
-				esc_html( $post->post_title )
-			);
-		}
-		print '</ul>';
-	}
 
 	/**
 	 * Register script and local variables.
@@ -98,7 +79,7 @@ class T5_Ajax_Search
 	public function register_script()
 	{
 		wp_enqueue_script(
-			't5-ajax',
+			'tk-ud-ajax',
 			plugins_url( '../assets/search.js', __FILE__ ),
 			array ( 'jquery' ),
 			NULL,
@@ -106,7 +87,7 @@ class T5_Ajax_Search
 		);
 
 		wp_localize_script(
-			't5-ajax',
+			'tk-ud-ajax',
 			'T5Ajax',
 			array(
 				'ajaxurl' => admin_url( 'admin-ajax.php' ),
@@ -116,7 +97,7 @@ class T5_Ajax_Search
 	}
 }
 
-add_filter( 't5_ajax_search_args', 'restrict_t5_search' );
+add_filter( 'TK_Ajax_Search_args', 'restrict_t5_search' );
 
 function restrict_t5_search( $args )
 {
