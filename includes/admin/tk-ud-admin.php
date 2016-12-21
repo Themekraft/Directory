@@ -19,7 +19,6 @@ add_action( 'admin_menu', 'tk_ud_settings_menu' );
  * @since 0.1
  */
 function tk_ud_settings_page() { ?>
-
 	<div class="wrap">
 		<div id="poststuff">
 			<div id="post-body" class="metabox-holder columns-2">
@@ -75,7 +74,7 @@ add_action( 'admin_init', 'tk_ud_register_option' );
  * @return mixed
  */
 function tk_ud_form_slug_sanitize( $new ) {
-	// todo: Sanitize
+	// todo: Sanitize all please!!!
 	return $new;
 }
 

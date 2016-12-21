@@ -22,7 +22,6 @@ class TK_Ajax_Search {
 	 * Constructor. Registers the actions.
 	 *
 	 * @wp-hook wp_loaded
-	 * @return object
 	 */
 	public function __construct() {
 		$callback = array( $this, 'search' );
@@ -122,14 +121,7 @@ class TK_Ajax_Search {
 	}
 }
 
-//add_filter( 'TK_Ajax_Search_args', 'restrict_t5_search' );
-//
-//function restrict_t5_search( $args )
-//{
-//	$args['post_type'] = array ( 'ultimate_directory' );
-//	return $args;
-//}
-
+// Create a taxonomy for the plz
 add_action( 'init', 'tk_ud_register_search_plz' );
 function tk_ud_register_search_plz() {
 	$labels = array(
@@ -153,6 +145,4 @@ function tk_ud_register_search_plz() {
 		"show_in_quick_edit" => true,
 	);
 	register_taxonomy( "directory_plz", array( "ultimate_directory" ), $args );
-
-// End tk_ud_register_categories()
 }

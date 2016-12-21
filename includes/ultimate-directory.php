@@ -1,5 +1,6 @@
 <?php
 
+// Create the post type
 add_action( 'init', 'tk_ud_register_post_type' );
 function tk_ud_register_post_type() {
 	$labels = array(
@@ -33,7 +34,7 @@ function tk_ud_register_post_type() {
 // End of tk_ud_register_post_type()
 }
 
-
+// Create the taxonomy category
 add_action( 'init', 'tk_ud_register_categories' );
 function tk_ud_register_categories() {
 	$labels = array(
@@ -62,7 +63,7 @@ function tk_ud_register_categories() {
 // End tk_ud_register_categories()
 }
 
-
+// Create the taxonomy tags
 add_action( 'init', 'tk_ud_register_tags' );
 function tk_ud_register_tags() {
 	$labels = array(
@@ -91,7 +92,7 @@ function tk_ud_register_tags() {
 // End tk_ud_register_tags()
 }
 
-// Add Fields to the content
+// Add Fields to the content and or excerpt
 add_filter( 'the_content', 'tk_ud_content_filter', 20 );
 add_filter( 'the_excerpt', 'tk_ud_content_filter', 20 );
 /**
@@ -119,6 +120,7 @@ function tk_ud_content_filter( $content ) {
 }
 
 
+// Display post meta
 function tk_ud_display_meta( $type = 'single' ) {
 	global $buddyforms, $post;
 
@@ -198,15 +200,7 @@ function tk_ud_display_meta( $type = 'single' ) {
 
 }
 
-
-/**
- * Locate a template
- *
- * @package BuddyForms
- * @since 0.1 beta
- *
- * @param $slug
- */
+// Locate a template
 function tk_ud_locate_template( $slug ) {
 	global $posts;
 
@@ -223,6 +217,7 @@ function tk_ud_locate_template( $slug ) {
 
 }
 
+// Get field by slug
 function buddyforms_get_form_field_by_slug( $form_slug, $slug ) {
 	global $buddyforms;
 

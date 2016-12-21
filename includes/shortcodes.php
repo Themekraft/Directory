@@ -1,5 +1,6 @@
 <?php
 
+// Search the directory
 function tk_ud_search( $atts ) {
 
 	ob_start();
@@ -23,15 +24,6 @@ function tk_ud_search( $atts ) {
 
 	$tmp = ob_get_clean();
 
-
-//	$was = ogdbPLZnearby('40227','3', true, true);
-//
-//
-//	echo '<pre>';
-//	print_r( $was );
-//	echo '</pre>';
-
 	return $tmp;
 }
-
 add_shortcode( 'directory_search', 'tk_ud_search' );

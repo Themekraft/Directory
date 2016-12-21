@@ -1,28 +1,6 @@
-//jQuery( function( $ ) {
-//    // search filed
-//    var $s = $( '#s' );
-//    // the search form
-//    var $sForm = $s.closest( 'form' );
-//    console.log( $sForm );
-//    $sForm.on( 'submit', function( event) {
-//        event.preventDefault();
-//        $.post(
-//            T5Ajax.ajaxurl,
-//            {
-//                action:     T5Ajax.action,
-//                search_term: $s.val()
-//            },
-//            function( response ) {
-//                // just append the result to the search form.
-//                $sForm.append( response );
-//            }
-//        );
-//    });
-//});
-
-
 jQuery(document).ready(function () {
 
+    // Check if search term is entered
     jQuery(document).on('change keyup paste click', '#s', function () {
 
         var s = jQuery('#s').val();
@@ -33,6 +11,7 @@ jQuery(document).ready(function () {
 
     });
 
+    // Check if plz is entered
     jQuery(document).on('change keyup paste click', '#s-plz', function () {
 
         var s_plz = jQuery('#s-plz').val();
@@ -42,6 +21,8 @@ jQuery(document).ready(function () {
         }
 
     });
+
+    // Check for the distance
     jQuery(document).on('change keyup paste click', '#s-distance', function () {
 
         var s_plz = jQuery('#s-plz').val();
@@ -52,6 +33,8 @@ jQuery(document).ready(function () {
         }
 
     });
+
+    // ok sure, we also check on submit ;)
     jQuery(document).on('submit', '#tk-ud-searchform', function () {
         tk_ud_ajax_search();
         return false;
@@ -60,12 +43,14 @@ jQuery(document).ready(function () {
 
 });
 
-
+// Ajax search
 function tk_ud_ajax_search() {
+
     var s = jQuery('#s').val();
     var s_plz = jQuery('#s-plz').val();
     var s_distance = jQuery('#s-distance').val();
     var s_cat = jQuery('#s-cat').val();
+
     jQuery.post(
         T5Ajax.ajaxurl,
         {
@@ -81,4 +66,5 @@ function tk_ud_ajax_search() {
 
         }
     );
+
 }
