@@ -50,7 +50,7 @@ class TK_Ajax_Search {
 	 * @return void
 	 */
 	public function search() {
-		global $posts;
+		global $tk_ud_search_query;
 
 
 		$search_term = isset( $_POST['search_term'] ) ? $_POST['search_term'] : '';
@@ -64,7 +64,6 @@ class TK_Ajax_Search {
 
 		$search_cat = isset( $_POST['search_cat'] ) ? $_POST['search_cat'] : false;
 
-
 		// Add the search string to the query
 		$args = array(
 			's'         => $search_term,
@@ -73,20 +72,38 @@ class TK_Ajax_Search {
 
 		// Add the plzs string to the query
 		if ( $plzs ) {
-			$plz_str               = implode( ',', $plzs );
-			$args['directory_plz'] = $plz_str;
+//			$plz_str               = implode( ',', $plzs );
+//			$args['directory_plz'] = $plz_str;
 		}
 
 		// Add the category string to the query
 		if ( $search_cat ) {
 			$search_cat_str               = implode( ',', $search_cat );
-			$args['directory_categories'] = $search_cat_str;
+//			$args['directory_categories'] = array($search_cat_str);
+			$args['tax_query'] = array(
+				'relation' => 'AND',
+				array(
+					'taxonomy' => 'directory_plz',
+					'field'    => 'slug',
+					'terms'    => $plzs,
+				),
+				array(
+					'taxonomy' => 'directory_categories',
+					'field'    => 'term_id',
+					'terms'    => $search_cat,
+					'operator' => 'IN'
+				),
+			);
+
 		}
 
 		$args = apply_filters( 'TK_Ajax_Search_args', $args );
 
-		$posts = get_posts( $args );
-		if ( $posts ) {
+		//$posts = get_posts( $args );
+
+		$tk_ud_search_query = new WP_Query( $args );
+
+		if ( $tk_ud_search_query ) {
 			tk_ud_locate_template( 'search-loop' );
 		} else {
 			print __( 'Nothing found', 'tk_ud' );

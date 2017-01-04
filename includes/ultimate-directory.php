@@ -202,7 +202,7 @@ function tk_ud_display_meta( $type = 'single' ) {
 
 // Locate a template
 function tk_ud_locate_template( $slug ) {
-	global $posts;
+	global $tk_ud_search_query;
 
 	// create the plugin template path
 	$template_path = TK_UD_TEMPLATES_PATH . $slug . '.php';
