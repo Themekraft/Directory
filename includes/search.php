@@ -50,19 +50,19 @@ class TK_Ajax_Search {
 	 * @return void
 	 */
 	public function search() {
-		global $tk_ud_search_query;
+		global $tk_ud_search_query, $tk_ud_posts;
 
 
 		$search_term = isset( $_POST['search_term'] ) ? $_POST['search_term'] : '';
 
 		$plzs = false;
-		if ( isset( $_POST['search_plz'] ) ) {
+		if ( isset( $_POST['search_plz'] ) && ! empty( $_POST['search_plz'] ) ) {
 			$search_plz      = $_POST['search_plz'];
 			$search_distance = isset( $_POST['search_distance'] ) ? $_POST['search_distance'] : 0;
 			$plzs            = ogdbPLZnearby( $search_plz, $search_distance );
 		}
 
-		$search_cat = isset( $_POST['search_cat'] ) ? $_POST['search_cat'] : false;
+		$search_cat = isset( $_POST['search_cat'] ) && $_POST['search_cat'] != -1  ? $_POST['search_cat'] : false;
 
 		// Add the search string to the query
 		$args = array(
@@ -72,34 +72,28 @@ class TK_Ajax_Search {
 
 		// Add the plzs string to the query
 		if ( $plzs ) {
-//			$plz_str               = implode( ',', $plzs );
-//			$args['directory_plz'] = $plz_str;
+			$args['tax_query'][]['relation'] = 'AND';
+			$args['tax_query'][] = array(
+				'taxonomy' => 'directory_plz',
+				'field'    => 'slug',
+				'terms'    => $plzs,
+			);
 		}
 
 		// Add the category string to the query
 		if ( $search_cat ) {
-			$search_cat_str               = implode( ',', $search_cat );
-//			$args['directory_categories'] = array($search_cat_str);
-			$args['tax_query'] = array(
-				'relation' => 'AND',
-				array(
-					'taxonomy' => 'directory_plz',
-					'field'    => 'slug',
-					'terms'    => $plzs,
-				),
-				array(
+			$args['tax_query'][]['relation'] = 'AND';
+			$args['tax_query'][] = array(
 					'taxonomy' => 'directory_categories',
 					'field'    => 'term_id',
 					'terms'    => $search_cat,
-					'operator' => 'IN'
-				),
+//					'operator' => 'IN'
 			);
-
 		}
 
 		$args = apply_filters( 'TK_Ajax_Search_args', $args );
 
-		//$posts = get_posts( $args );
+//		$tk_ud_posts = get_posts( $args );
 
 		$tk_ud_search_query = new WP_Query( $args );
 

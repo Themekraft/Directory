@@ -11,7 +11,7 @@ function tk_ud_search( $atts ) {
 		<div id="tk-ud-search">
 			<form role="search" method="get" id="tk-ud-searchform" action="">
 				<input type="text" placeholder="Search" name="s" id="tk-ud-s"/>
-				<?php wp_dropdown_categories( array( 'taxonomy' => 'directory_categories', 'id' => 'tk-ud-s-cat' ) ); ?>
+				<?php wp_dropdown_categories( array( 'taxonomy' => 'directory_categories', 'id' => 'tk-ud-s-cat', 'show_option_none' => 'Category' ) ); ?>
 				<input type="text" value="" placeholder="PLZ" name="s_plz" minlength=5 maxlength=5 id="tk-ud-s-plz"/>
 				<input type="number" value="" placeholder="Distance" name="s_distance" id="tk-ud-s-distance"/>
 				<input type="submit" id="searchsubmit" value="Search"/>
