@@ -132,7 +132,7 @@ function tk_ud_display_meta( $type = 'single' ) {
 		return;
 	}
 
-	$form_slug = get_option( 'tk_ud_buddyforms' );
+	$form_slug = get_option( 'tk_ud_form_slug' );
 
 	if ( ! isset( $form_slug ) ) {
 		return;
