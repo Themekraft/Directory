@@ -27,6 +27,8 @@
 				<?php
 			}
 			echo '</ul>';
+			echo '<input type="hidden" id="tk-ud-paged" value="' . $paged .'">';
+			the_posts_pagination();
 			/* Restore original Post Data */
 			wp_reset_postdata($tk_ud_search_query);
 		} else {

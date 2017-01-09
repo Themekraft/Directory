@@ -50,8 +50,9 @@ class TK_Ajax_Search {
 	 * @return void
 	 */
 	public function search() {
-		global $tk_ud_search_query, $tk_ud_posts;
+		global $tk_ud_search_query, $tk_ud_posts, $paged;
 
+		$paged = isset( $_POST['paged'] ) ? $_POST['paged'] : 1;
 
 		$search_term = isset( $_POST['search_term'] ) ? $_POST['search_term'] : '';
 
@@ -68,6 +69,8 @@ class TK_Ajax_Search {
 		$args = array(
 			's'         => $search_term,
 			'post_type' => 'ultimate_directory',
+			'posts_per_page' => 5,
+			'paged' => $paged
 		);
 
 		// Add the plzs string to the query
@@ -96,6 +99,8 @@ class TK_Ajax_Search {
 //		$tk_ud_posts = get_posts( $args );
 
 		$tk_ud_search_query = new WP_Query( $args );
+
+		$GLOBALS['wp_query'] = $tk_ud_search_query;
 
 		if ( $tk_ud_search_query ) {
 			tk_ud_locate_template( 'search-loop' );

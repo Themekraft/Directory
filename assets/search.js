@@ -8,6 +8,7 @@ jQuery(document).ready(function () {
         //console.log( s );
 
         if (s.length > 2) {
+            jQuery('#tk-ud-paged').val(0);
             tk_ud_ajax_search();
         } else {
             jQuery('#result').html('');
@@ -21,6 +22,7 @@ jQuery(document).ready(function () {
         var s_plz = jQuery( this ).val();
 
         if (s_plz.length > 4) {
+            jQuery('#tk-ud-paged').val(0);
             tk_ud_ajax_search();
         }
 
@@ -33,6 +35,7 @@ jQuery(document).ready(function () {
         var s_plz = jQuery('#tk-ud-s-plz').val();
 
         if (s_plz.length > 4 && s_distance.length > 0) {
+            jQuery('#tk-ud-paged').val(0);
             tk_ud_ajax_search();
         }
 
@@ -42,6 +45,7 @@ jQuery(document).ready(function () {
 
     // Check for the s-cat
     jQuery(document).on('change', '#tk-ud-s-cat', function () {
+        jQuery('#tk-ud-paged').val(0);
         tk_ud_ajax_search();
         return false;
     });
@@ -55,7 +59,45 @@ jQuery(document).ready(function () {
     });
 
 
+
+    jQuery(document).on( 'click', '.nav-links a', function( event ) {
+        event.preventDefault();
+        var page        = find_page_number( jQuery( this ).clone() );
+
+        if(!isNaN(page)){
+            jQuery('#tk-ud-paged').val(page);
+            tk_ud_ajax_search();
+            return false;
+        }
+
+        if (jQuery(this).hasClass('next')){
+            page = parseInt( jQuery('#tk-ud-paged').val() );
+            page++;
+            jQuery('#tk-ud-paged').val(page);
+            tk_ud_ajax_search();
+            return false;
+        }
+
+        if (jQuery(this).hasClass('prev')){
+            page = parseInt( jQuery('#tk-ud-paged').val() );
+            page--;
+            jQuery('#tk-ud-paged').val(page);
+            tk_ud_ajax_search();
+            return false;
+        }
+
+    })
+    
+    tk_ud_ajax_search();
+
 });
+
+
+function find_page_number( element ) {
+    element.find('span').remove();
+    return parseInt( element.html() );
+}
+
 
 // Ajax search
 function tk_ud_ajax_search() {
@@ -64,6 +106,10 @@ function tk_ud_ajax_search() {
     var s_plz       = jQuery('#tk-ud-s-plz').val();
     var s_distance  = jQuery('#tk-ud-s-distance').val();
     var s_cat       = jQuery('#tk-ud-s-cat').val();
+    var paged       = jQuery('#tk-ud-paged').val();
+
+
+
 
     jQuery.post(
         T5Ajax.ajaxurl,
@@ -72,7 +118,8 @@ function tk_ud_ajax_search() {
             search_term: s,
             search_plz: s_plz,
             search_distance: s_distance,
-            search_cat: s_cat
+            search_cat: s_cat,
+            paged: paged
         },
         function (response) {
 
