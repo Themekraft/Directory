@@ -70,6 +70,8 @@ class TK_Ajax_Search {
 			's'         => $search_term,
 			'post_type' => 'ultimate_directory',
 			'posts_per_page' => 5,
+			'order_by' => 'title',
+			'order' => 'ASC',
 			'paged' => $paged
 		);
 
