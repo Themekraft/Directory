@@ -105,7 +105,7 @@ function tk_ud_content_filter( $content ) {
 
 	if ( is_single() ) {
 		if ( $post->post_type == 'ultimate_directory' ) {
-			$content = tk_ud_display_meta( 'single' );
+			$content .= tk_ud_display_meta( 'single' );
 		}
 	}
 
@@ -163,7 +163,7 @@ function tk_ud_display_meta( $type = 'single' ) {
 
 				$customfield_value = get_post_meta( $post->ID, $customfield['slug'], true );
 
-				if ( ! empty( $customfield_value ) ) {
+				// if ( ! empty( $customfield_value ) ) {
 					$post_meta_tmp .= '<div class="post_meta ' . $customfield['slug'] . '">';
 
 					$post_meta_tmp .= '<label>' . $customfield['name'] . '</label>';
@@ -178,11 +178,11 @@ function tk_ud_display_meta( $type = 'single' ) {
 						case 'taxonomy':
 							$meta_tmp = get_the_term_list( $post->ID, $customfield['taxonomy'], "<p>", ' - ', "</p>" );
 							break;
-						case 'link':
+						case 'user_website':
 							$meta_tmp = "<p><a href='" . $customfield_value . "' " . $customfield['name'] . ">" . $customfield_value . " </a></p>";
 							break;
 						default:
-							//$meta_tmp = $customfield_value;
+							$meta_tmp = $customfield_value;
 							break;
 					}
 					$post_meta_tmp .= '</div>';
@@ -190,7 +190,7 @@ function tk_ud_display_meta( $type = 'single' ) {
 						$post_meta_tmp .= $meta_tmp;
 					}
 
-				}
+				// }
 			}
 
 		}
