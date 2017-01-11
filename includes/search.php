@@ -69,8 +69,8 @@ class TK_Ajax_Search {
 		$args = array(
 			's'         => $search_term,
 			'post_type' => 'ultimate_directory',
-			'posts_per_page' => 5,
-			'order_by' => 'title',
+			'posts_per_page' => 10,
+			'orderby' => 'title',
 			'order' => 'ASC',
 			'paged' => $paged
 		);
