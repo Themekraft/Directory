@@ -5,13 +5,9 @@ jQuery(document).ready(function () {
 
         var s = jQuery( this ).val();
 
-        //console.log( s );
-
         if (s.length > 2) {
             jQuery('#tk-ud-paged').val(0);
             tk_ud_ajax_search();
-        } else {
-            jQuery('#result').html('');
         }
 
     });
@@ -92,12 +88,10 @@ jQuery(document).ready(function () {
 
 });
 
-
 function find_page_number( element ) {
     element.find('span').remove();
     return parseInt( element.html() );
 }
-
 
 // Ajax search
 function tk_ud_ajax_search() {
@@ -107,9 +101,6 @@ function tk_ud_ajax_search() {
     var s_distance  = jQuery('#tk-ud-s-distance').val();
     var s_cat       = jQuery('#tk-ud-s-cat').val();
     var paged       = jQuery('#tk-ud-paged').val();
-
-
-
 
     jQuery.post(
         T5Ajax.ajaxurl,
