@@ -124,10 +124,6 @@ function tk_ud_content_filter( $content ) {
 function tk_ud_display_meta( $type = 'single' ) {
 	global $buddyforms, $post;
 
-	if ( !( is_admin() && defined( 'DOING_AJAX' ) && DOING_AJAX ) ){
-		return;
-	}
-
 	if ( ! isset( $post->ID ) ) {
 		return;
 	}
