@@ -161,7 +161,6 @@ function tk_ud_display_meta( $type = 'single' ) {
 
 				// if ( ! empty( $customfield_value ) ) {
 					$post_meta_tmp .= '<div class="post_meta ' . $customfield['slug'] . '">';
-
 					$post_meta_tmp .= '<label>' . $customfield['name'] . '</label>';
 
 					if ( is_array( $customfield_value ) ) {
