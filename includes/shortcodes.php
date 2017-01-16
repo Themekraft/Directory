@@ -24,7 +24,7 @@ function tk_ud_search( $atts ) {
 				wp_dropdown_categories( array( 'taxonomy' => 'directory_categories', 'id' => 'tk-ud-s-cat', 'multiple' => true) );
 				$dropdown = ob_get_clean();
 				$dropdown = str_replace( 'id=', 'multiple="multiple" id=', $dropdown );
-				$dropdown = str_replace( 'id=', 'style="width:50%;" id=', $dropdown );
+				$dropdown = str_replace( 'id=', 'style="width:30%;" id=', $dropdown );
 				echo $dropdown;
 				?>
 				<input type="text" value="" placeholder="PLZ" name="s_plz" minlength=5 maxlength=5 id="tk-ud-s-plz"/>

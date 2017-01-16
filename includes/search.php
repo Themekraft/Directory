@@ -65,6 +65,8 @@ class TK_Ajax_Search {
 
 		$search_cat = isset( $_POST['search_cat'] ) && $_POST['search_cat'] != -1  ? $_POST['search_cat'] : false;
 
+
+
 		// Add the search string to the query
 		$args = array(
 			's'         => $search_term,
@@ -72,7 +74,7 @@ class TK_Ajax_Search {
 			'posts_per_page' => 10,
 			'orderby' => 'title',
 			'order' => 'ASC',
-			'paged' => $paged
+			'paged' => $paged,
 		);
 
 		// Add the plzs string to the query

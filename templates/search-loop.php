@@ -32,7 +32,7 @@
 			/* Restore original Post Data */
 			wp_reset_postdata($tk_ud_search_query);
 		} else {
-			// no posts found
+			echo '<p>' . __('No Posts Found', 'dav') . '</p>';
 		}
 		?>
 
