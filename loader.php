@@ -142,7 +142,6 @@ class TK_Ultimate_Directory {
 //			|| $hook_suffix == 'buddyforms_page_buddyforms-pricing'
 //		) {
 		wp_enqueue_script( 'admin', plugins_url( 'assets/admin/admin.js', __FILE__ ), array( 'jquery' ), '4.0.3' );
-//		wp_enqueue_style( 'buddyforms-select2-css', plugins_url( 'assets/resources/select2/dist/css/select2.min.css', __FILE__ ) );
 //		}
 
 	}
@@ -155,6 +154,8 @@ class TK_Ultimate_Directory {
 	 *
 	 */
 	function front_js() {
+		wp_enqueue_script( 'multiple-select', plugins_url( 'assets/resources/multiple-select/multiple-select.js', __FILE__ ), array( 'jquery' ), '1.2.1' );
+		wp_enqueue_style( 'multiple-select', plugins_url( 'assets/resources/multiple-select/multiple-select.css', __FILE__ ) );
 
 	}
 
