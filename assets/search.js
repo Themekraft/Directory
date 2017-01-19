@@ -1,7 +1,7 @@
 jQuery(document).ready(function () {
 
     // Check if search term is entered
-    jQuery(document).on('change keyup paste click', '#tk-ud-s', function () {
+    jQuery(document).on('change keyup paste click delete', '#tk-ud-s', function () {
 
         var s = jQuery( this ).val();
 
