@@ -114,7 +114,7 @@ function tk_ud_ajax_search() {
         },
         function (response) {
 
-            jQuery('#result').html(response);
+            jQuery('#tk-ud-search-result').html(response);
 
         }
     );

@@ -50,7 +50,7 @@ function tk_ud_search( $atts ) {
                 </div>
 			</form>
 		</div>
-		<div id="result"></div>
+		<div id="tk-ud-search-result"></div>
 	</div>
 	<?php
 

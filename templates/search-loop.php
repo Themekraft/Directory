@@ -1,5 +1,5 @@
 <div id="primary" class="content-area">
-	<main id="main" class="site-main tk-ud-ajax-search-results" role="main">
+	<main id="main" class="site-main tk-ud-ajax-search-result" role="main">
 
 		<?php
 		// The Loop
