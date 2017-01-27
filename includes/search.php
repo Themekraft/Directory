@@ -55,17 +55,7 @@ class TK_Ajax_Search {
 		$paged = isset( $_POST['paged'] ) ? $_POST['paged'] : 1;
 
 		$search_term = isset( $_POST['search_term'] ) ? $_POST['search_term'] : '';
-
-		$plzs = false;
-		if ( isset( $_POST['search_plz'] ) && ! empty( $_POST['search_plz'] ) ) {
-			$search_plz      = $_POST['search_plz'];
-			$search_distance = isset( $_POST['search_distance'] ) ? $_POST['search_distance'] : 0;
-			$plzs            = ogdbPLZnearby( $search_plz, $search_distance );
-		}
-
-		$search_cat = isset( $_POST['search_cat'] ) && $_POST['search_cat'] != -1  ? $_POST['search_cat'] : false;
-
-
+		$search_cat  = isset( $_POST['search_cat'] ) && $_POST['search_cat'] != -1  ? $_POST['search_cat'] : false;
 
 		// Add the search string to the query
 		$args = array(
@@ -76,16 +66,6 @@ class TK_Ajax_Search {
 			'order' => 'ASC',
 			'paged' => $paged,
 		);
-
-		// Add the plzs string to the query
-		if ( $plzs ) {
-			$args['tax_query'][]['relation'] = 'AND';
-			$args['tax_query'][] = array(
-				'taxonomy' => 'directory_plz',
-				'field'    => 'slug',
-				'terms'    => $plzs,
-			);
-		}
 
 		// Add the category string to the query
 		if ( $search_cat ) {
@@ -98,9 +78,7 @@ class TK_Ajax_Search {
 			);
 		}
 
-		$args = apply_filters( 'TK_Ajax_Search_args', $args );
-
-//		$tk_ud_posts = get_posts( $args );
+		$args = apply_filters( 'tk_ud_ajax_search_args', $args );
 
 		$tk_ud_search_query = new WP_Query( $args );
 

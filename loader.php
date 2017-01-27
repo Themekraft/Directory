@@ -87,6 +87,7 @@ class TK_Ultimate_Directory {
 		if ( ! defined( 'TK_UD_TEMPLATES_PATH' ) ) {
 			define( 'TK_UD_TEMPLATES_PATH', TK_UD_INSTALL_PATH . 'templates/' );
 		}
+
 	}
 
 	/**
@@ -103,8 +104,6 @@ class TK_Ultimate_Directory {
 		require_once( TK_UD_INCLUDES_PATH . '/ultimate-directory.php' );
 		require_once( TK_UD_INCLUDES_PATH . '/shortcodes.php' );
 		require_once( TK_UD_INCLUDES_PATH . '/search.php' );
-		require_once( TK_UD_INCLUDES_PATH . 'resources/ogdbPLZnearby/ogdbPLZnearby2.lib.php' );
-
 
 	}
 

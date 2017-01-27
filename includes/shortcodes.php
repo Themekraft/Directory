@@ -13,7 +13,6 @@ function tk_ud_search( $atts ) {
                 <div class="row">
                     <div class="col-md-3">
                         <input type="text" placeholder="<?php _e( 'Search', 'tk_ud' ); ?>" name="s" id="tk-ud-s"/>
-
                         <script>
                             jQuery(document).ready(function (jQuery) {
                                 jQuery("select").multipleSelect({
@@ -22,12 +21,7 @@ function tk_ud_search( $atts ) {
                             });
                         </script>
                     </div>
-                    <div class="col-md-3">
-                        <div class="row">
-                            <div class="col-lg-6"><input type="text" value="" placeholder="<?php _e( 'PLZ', 'tk_ud' ); ?>" name="s_plz" minlength=5 maxlength=5 id="tk-ud-s-plz"/></div>
-                            <div class="col-lg-6"><input type="number" value="" placeholder="<?php _e( 'Distance in km', 'tk_ud' ); ?>" name="s_distance" id="tk-ud-s-distance"/></div>
-                        </div>
-                    </div>
+                    <?php do_action( 'tk_ud_search_form' ); ?>
                     <div class="col-md-3">
                         <?php
                         ob_start();
@@ -44,9 +38,6 @@ function tk_ud_search( $atts ) {
                             <div class="col-lg-6"><input type="reset" id="reset" value="<?php _e( 'Reset', 'tk_ud' ); ?>"  class="btn btn-primary btn-small"/></div>
                         </div>
                     </div>
-
-
-
                 </div>
 			</form>
 		</div>

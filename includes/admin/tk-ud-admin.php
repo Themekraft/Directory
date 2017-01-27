@@ -44,14 +44,14 @@ function tk_ud_settings_page() { ?>
  * @since 0.1
  */
 function tk_ud_admin_tabs( $current = 'homepage' ) {
-	$tabs = array( 'general' => 'General Settings' );
+	$tabs = array( 'general' => 'General Settings', 'loop' => 'The Loop', 'single' => 'Post Single View' );
 
 	$tabs = apply_filters( 'tk_ud_admin_tabs', $tabs );
 
 	echo '<h2 class="nav-tab-wrapper" style="padding-bottom: 0;">';
 	foreach ( $tabs as $tab => $name ) {
 		$class = ( $tab == $current ) ? ' nav-tab-active' : '';
-		echo "<a class='nav-tab$class' href='?page=tk_ud_settings&tab=$tab'>$name</a>";
+		echo "<a class='nav-tab$class' href='?post_type=ultimate_directory&page=tk_ud_settings&tab=$tab'>$name</a>";
 	}
 	echo '</h2>';
 }
@@ -106,7 +106,64 @@ function tk_ud_settings_page_tabs_content() { ?>
 			switch ( $tab ) {
 				case 'general' :
 					global $buddyforms; ?>
+					<div class="metabox-holder">
+						<div class="postbox">
+							<div class="inside">
+								<form method="post" action="options.php">
+									<?php settings_fields( 'tk_ud_form_slug' ); ?>
+									<h3><span><?php _e( 'Select the Form you like to use for the Front end Post management', 'tk-pm' ); ?></span></h3>
+									<?php $tk_ud_form_slug = get_option( 'tk_ud_form_slug', true ); ?>
+									<select id="tk-ud-buddyforms" name="tk_ud_form_slug">
+										<?php if ( isset( $buddyforms ) ) {
+											foreach ( $buddyforms as $buddyform ) {
+												echo '<option ' . selected( $tk_ud_form_slug, $buddyform['slug'] ) . '  value="' . $buddyform['slug'] . '">' . $buddyform['name'] . '</option>';
+											}
+										}
+										?>
+									</select>
+									<p><?php _e( 'Order', 'tk-pm' ); ?></p>
 
+									<p><?php _e( 'Order by', 'tk-pm' ); ?></p>
+
+
+
+									<?php submit_button(); ?>
+								</form>
+							</div><!-- .inside -->
+						</div><!-- .postbox -->
+					</div><!-- .metabox-holder -->
+					<?php
+					break;
+				case 'single' :
+					?>
+					<div class="metabox-holder">
+						<div class="postbox">
+							<h3>
+								<span><?php _e( 'Select the Form you like to use for the Front end Post management', 'tk-pm' ); ?></span>
+							</h3>
+							<div class="inside">
+
+								<form method="post" action="options.php">
+
+									<?php settings_fields( 'tk_ud_meta' ); ?>
+
+									<div style="display:none;">
+										<?php tk_ud_get_field_list( 'single' ); ?>
+									</div>
+
+									<label for="form-fields-select"><p><b>Add form element's to the Loop</b></p></label>
+									<?php tk_ud_get_field_list( 'loop' ); ?>
+
+									<?php submit_button(); ?>
+								</form>
+
+							</div><!-- .inside -->
+						</div><!-- .postbox -->
+					</div><!-- .metabox-holder -->
+					<?php
+					break;
+				case 'loop' :
+					?>
 					<div class="metabox-holder">
 						<div class="postbox">
 							<h3>
@@ -114,25 +171,12 @@ function tk_ud_settings_page_tabs_content() { ?>
 							</h3>
 							<div class="inside">
 								<form method="post" action="options.php">
-									<?php settings_fields( 'tk_ud_form_slug' ); ?>
-									<?php $tk_ud_form_slug = get_option( 'tk_ud_form_slug', true ); ?>
-									<select id="tk-ud-buddyforms" name="tk_ud_form_slug">
-										<?php if ( isset( $buddyforms ) ) {
-											foreach ( $buddyforms as $buddyform ) {
-
-												echo '<option ' . selected( $tk_ud_form_slug, $buddyform['slug'] ) . '  value="' . $buddyform['slug'] . '">' . $buddyform['name'] . '</option>';
-											}
-										}
-										?>
-									</select>
-									<?php submit_button(); ?>
-								</form>
-								<form method="post" action="options.php">
 
 									<?php settings_fields( 'tk_ud_meta' ); ?>
 
-									<label for="form-fields-select"><p><b>Add form element's to the Loop</b></p></label>
-									<?php tk_ud_get_field_list( 'loop' ); ?>
+									<div style="display:none;">
+										<?php tk_ud_get_field_list( 'loop' ); ?>
+									</div>
 
 									<label for="form-fields-select"><p><b>Add form element's to the Single</b></p>
 									</label>
