@@ -67,6 +67,7 @@ function tk_ud_ajax_search() {
 
     var s           = jQuery('#tk-ud-s').val();
     var s_plz       = jQuery('#tk-ud-s-plz').val();
+    var s_plz_multi = jQuery('#tk-ud-s-plz-multi').val();
     var s_distance  = jQuery('#tk-ud-s-distance').val();
     var s_cat       = jQuery('#tk-ud-s-cat').val();
     var paged       = jQuery('#tk-ud-paged').val();
@@ -77,6 +78,7 @@ function tk_ud_ajax_search() {
             action: T5Ajax.action,
             search_term: s,
             search_plz: s_plz,
+            search_plz_multi: s_plz_multi,
             search_distance: s_distance,
             search_cat: s_cat,
             paged: paged

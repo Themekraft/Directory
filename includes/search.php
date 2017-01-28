@@ -80,7 +80,7 @@ class TK_Ajax_Search {
 
 		$args = apply_filters( 'tk_ud_ajax_search_args', $args );
 
-		$tk_ud_search_query = new WP_Query( $args );
+ 		$tk_ud_search_query = new WP_Query( $args );
 
 		$GLOBALS['wp_query'] = $tk_ud_search_query;
 
