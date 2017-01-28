@@ -1,5 +1,14 @@
 jQuery(document).ready(function () {
 
+    jQuery("#spinner").bind("ajaxSend", function() {
+        jQuery(this).show();
+        }).bind("ajaxStop", function() {
+        jQuery(this).hide();
+        }).bind("ajaxError", function() {
+        jQuery(this).hide();
+        });
+
+
     // Check if search term is entered
     jQuery(document).on('change keyup paste click delete', '#tk-ud-s', function () {
 
@@ -73,9 +82,9 @@ function tk_ud_ajax_search() {
     var paged       = jQuery('#tk-ud-paged').val();
 
     jQuery.post(
-        T5Ajax.ajaxurl,
+        TK_UD_Ajax.ajaxurl,
         {
-            action: T5Ajax.action,
+            action: TK_UD_Ajax.action,
             search_term: s,
             search_plz: s_plz,
             search_plz_multi: s_plz_multi,

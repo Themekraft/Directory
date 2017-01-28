@@ -110,7 +110,7 @@ class TK_Ajax_Search {
 
 		wp_localize_script(
 			'tk-ud-ajax',
-			'T5Ajax',
+			'TK_UD_Ajax',
 			array(
 				'ajaxurl' => admin_url( 'admin-ajax.php' ),
 				'action'  => $this->action

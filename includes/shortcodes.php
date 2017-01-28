@@ -13,6 +13,9 @@ function tk_ud_search( $atts ) {
                 <div class="row">
                     <div class="col-md-3">
                         <input type="text" placeholder="<?php _e( 'Search', 'tk_ud' ); ?>" name="s" id="tk-ud-s"/>
+	                    <div id="spinner" class="spinner" style="display:none;">
+		                    <img id="img-spinner" src="/wp-includes/js/tinymce/skins/lightgray/img/loader.gif" alt="Loading"/>
+	                    </div>
                         <script>
                             jQuery(document).ready(function (jQuery) {
                                 jQuery("#tk-ud-s-cat").multipleSelect({
@@ -42,6 +45,7 @@ function tk_ud_search( $atts ) {
 			</form>
 		</div>
 		<div id="tk-ud-search-result"></div>
+
 	</div>
 	<?php
 
