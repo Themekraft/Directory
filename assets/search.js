@@ -19,15 +19,11 @@ jQuery(document).ready(function () {
         return false;
     });
 
-
-
     // ok sure, we also check on submit ;)
     jQuery(document).on('submit', '#tk-ud-searchform', function () {
         tk_ud_ajax_search();
         return false;
     });
-
-
 
     jQuery(document).on( 'click', '.nav-links a', function( event ) {
         event.preventDefault();

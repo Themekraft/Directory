@@ -15,7 +15,7 @@ function tk_ud_search( $atts ) {
                         <input type="text" placeholder="<?php _e( 'Search', 'tk_ud' ); ?>" name="s" id="tk-ud-s"/>
                         <script>
                             jQuery(document).ready(function (jQuery) {
-                                jQuery("select").multipleSelect({
+                                jQuery("#tk-ud-s-cat").multipleSelect({
                                     placeholder: "<?php _e('Filter', 'dav'); ?>"
                                 });
                             });
