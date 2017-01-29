@@ -6,11 +6,6 @@ jQuery(document).ready(function () {
         jQuery(this).hide();
         }).bind("ajaxError", function() {
         jQuery(this).hide();
-        });
-
-
-    jQuery(document).on('click', '#reset', function () {
-        location.reload();
     });
 
     // Check if search term is entered
@@ -66,10 +61,16 @@ jQuery(document).ready(function () {
 
     })
 
+    // Reload the search if reset is triggered
+    jQuery(document).on('click', '#reset', function () {
+        location.reload();
+    });
+
     tk_ud_ajax_search();
 
 });
 
+// function to get the current page number
 function find_page_number( element ) {
     element.find('span').remove();
     return parseInt( element.html() );

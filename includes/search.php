@@ -92,7 +92,6 @@ class TK_Ajax_Search {
 		exit;
 	}
 
-
 	/**
 	 * Register script and local variables.
 	 *
@@ -117,30 +116,4 @@ class TK_Ajax_Search {
 			)
 		);
 	}
-}
-
-// Create a taxonomy for the plz
-add_action( 'init', 'tk_ud_register_search_plz' );
-function tk_ud_register_search_plz() {
-	$labels = array(
-		"name" => __( 'PLZ', 'tk_ud' ),
-	);
-
-	$args = array(
-		"label"              => __( 'PLZ', 'tk_ud' ),
-		"labels"             => $labels,
-		"public"             => true,
-		"hierarchical"       => false,
-		"label"              => "PLZ",
-		"show_ui"            => true,
-		"show_in_menu"       => true,
-		"show_in_nav_menus"  => true,
-		"query_var"          => true,
-		"rewrite"            => array( 'slug' => 'plz', 'with_front' => true, 'hierarchical' => false, ),
-		"show_admin_column"  => true,
-		"show_in_rest"       => true,
-		"rest_base"          => "directory-plz",
-		"show_in_quick_edit" => true,
-	);
-	register_taxonomy( "directory_plz", array( "ultimate_directory" ), $args );
 }
