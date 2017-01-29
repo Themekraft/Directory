@@ -9,6 +9,10 @@ jQuery(document).ready(function () {
         });
 
 
+    jQuery(document).on('click', '#reset', function () {
+        location.reload();
+    });
+
     // Check if search term is entered
     jQuery(document).on('change keyup paste click delete', '#tk-ud-s', function () {
 
