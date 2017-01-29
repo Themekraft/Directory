@@ -147,11 +147,12 @@ function tk_ud_display_meta($type = 'single')
         return;
     }
 
-    $tk_ud_meta = get_option( 'tk_ud_meta'.$type );
+    $tk_ud_meta = get_option( 'tk_ud_meta' );
+    $tk_ud_meta = $tk_ud_meta[$type];
 
     $post_meta_tmp = '';
 
-    if ( isset( $tk_ud_meta ) ) {
+    if ( isset( $tk_ud_meta ) && is_array( $tk_ud_meta )) {
         foreach ( $tk_ud_meta as $key => $meta ) {
 
             $customfield = buddyforms_get_form_field_by_slug( $form_slug, $meta['slug'] );

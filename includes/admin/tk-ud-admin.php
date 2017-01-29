@@ -44,7 +44,7 @@ function tk_ud_settings_page() { ?>
  * @since 0.1
  */
 function tk_ud_admin_tabs( $current = 'homepage' ) {
-	$tabs = array( 'general' => 'General Settings', 'loop' => 'The Loop', 'single' => 'Post Single View' );
+	$tabs = array( 'general' => 'General Settings', 'loop' => 'The Loop', 'single' => 'Post Single View', 'search' => 'Search' );
 
 	$tabs = apply_filters( 'tk_ud_admin_tabs', $tabs );
 
@@ -64,6 +64,7 @@ function tk_ud_admin_tabs( $current = 'homepage' ) {
 function tk_ud_register_option() {
 	register_setting( 'tk_ud_form_slug', 'tk_ud_form_slug', 'tk_ud_form_slug_sanitize' );
 	register_setting( 'tk_ud_meta', 'tk_ud_meta', 'tk_ud_form_slug_sanitize' );
+	register_setting( 'tk_ud_search', 'tk_ud_search', 'tk_ud_form_slug_sanitize' );
 }
 
 add_action( 'admin_init', 'tk_ud_register_option' );
@@ -138,9 +139,7 @@ function tk_ud_settings_page_tabs_content() { ?>
 					?>
 					<div class="metabox-holder">
 						<div class="postbox">
-							<h3>
-								<span><?php _e( 'Select the Form you like to use for the Front end Post management', 'tk-pm' ); ?></span>
-							</h3>
+							<h2><?php _e( 'Select the Form you like to use for the Front end Post management', 'tk-pm' ); ?></span></h2>
 							<div class="inside">
 
 								<form method="post" action="options.php">
@@ -166,9 +165,7 @@ function tk_ud_settings_page_tabs_content() { ?>
 					?>
 					<div class="metabox-holder">
 						<div class="postbox">
-							<h3>
-								<span><?php _e( 'Select the Form you like to use for the Front end Post management', 'tk-pm' ); ?></span>
-							</h3>
+							<h2><?php _e( 'Select the Form you like to use for the Front end Post management', 'tk-pm' ); ?></h2>
 							<div class="inside">
 								<form method="post" action="options.php">
 
@@ -182,6 +179,39 @@ function tk_ud_settings_page_tabs_content() { ?>
 									</label>
 									<?php tk_ud_get_field_list( 'single' ); ?>
 
+									<?php submit_button(); ?>
+								</form>
+
+							</div><!-- .inside -->
+						</div><!-- .postbox -->
+					</div><!-- .metabox-holder -->
+					<?php
+					break;
+				case 'search' :
+					?>
+					<div class="metabox-holder">
+						<div class="postbox">
+							<h2><?php _e( 'Search Setup', 'tk-pm' ); ?></h2>
+							<div class="inside">
+								<form method="post" action="options.php">
+
+									<?php settings_fields( 'tk_ud_search' ); ?>
+									<?php $tk_ud_search = get_option( 'tk_ud_search', true ); ?>
+
+									<label for="display_category_filter"><p><b>Display the category filter</b></p></label>
+									<select id="display_category_filter" name="tk_ud_search[display_category_filter]">
+										<option <?php selected($tk_ud_search['display_category_filter'], 'yes') ?> value="yes">Yes</option>
+										<option <?php selected($tk_ud_search['display_category_filter'], 'no') ?> value="no">No</option>
+									</select>
+
+									<label for="category_filter_select_all"><p><b>Enable select all in the category filter</b></p></label>
+									<select id="category_filter_select_all" name="tk_ud_search[category_filter_select_all]">
+										<option <?php selected($tk_ud_search['category_filter_select_all'], 'yes') ?> value="yes">Yes</option>
+										<option <?php selected($tk_ud_search['category_filter_select_all'], 'no') ?> value="no">No</option>
+									</select>
+
+
+									<input type="hidden" >
 									<?php submit_button(); ?>
 								</form>
 
