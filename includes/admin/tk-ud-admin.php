@@ -109,10 +109,10 @@ function tk_ud_settings_page_tabs_content() { ?>
 					global $buddyforms; ?>
 					<div class="metabox-holder">
 						<div class="postbox">
+							<h2><?php _e( 'Select the Form you like to use for the Front end Post management', 'tk-pm' ); ?></h2>
 							<div class="inside">
 								<form method="post" action="options.php">
 									<?php settings_fields( 'tk_ud_form_slug' ); ?>
-									<h3><span><?php _e( 'Select the Form you like to use for the Front end Post management', 'tk-pm' ); ?></span></h3>
 									<?php $tk_ud_form_slug = get_option( 'tk_ud_form_slug', true ); ?>
 									<select id="tk-ud-buddyforms" name="tk_ud_form_slug">
 										<?php if ( isset( $buddyforms ) ) {
@@ -122,12 +122,6 @@ function tk_ud_settings_page_tabs_content() { ?>
 										}
 										?>
 									</select>
-									<p><?php _e( 'Order', 'tk-pm' ); ?></p>
-
-									<p><?php _e( 'Order by', 'tk-pm' ); ?></p>
-
-
-
 									<?php submit_button(); ?>
 								</form>
 							</div><!-- .inside -->
@@ -209,9 +203,19 @@ function tk_ud_settings_page_tabs_content() { ?>
 										<option <?php selected($tk_ud_search['category_filter_select_all'], 'yes') ?> value="yes">Yes</option>
 										<option <?php selected($tk_ud_search['category_filter_select_all'], 'no') ?> value="no">No</option>
 									</select>
+									<hr>
+									<label for="display_submit"><p><b>Display the Submit Button</b></p></label>
+									<select id="display_submit" name="tk_ud_search[display_submit]">
+										<option <?php selected($tk_ud_search['display_submit'], 'yes') ?> value="yes">Yes</option>
+										<option <?php selected($tk_ud_search['display_submit'], 'no') ?> value="no">No</option>
+									</select>
 
-
-									<input type="hidden" >
+									<label for="display_reset"><p><b>Display the Reset Button</b></p></label>
+									<select id="display_reset" name="tk_ud_search[display_reset]">
+										<option <?php selected($tk_ud_search['display_reset'], 'yes') ?> value="yes">Yes</option>
+										<option <?php selected($tk_ud_search['display_reset'], 'no') ?> value="no">No</option>
+									</select>
+									<?php do_action('tk_ud_search_settings', $tk_ud_search); ?>
 									<?php submit_button(); ?>
 								</form>
 

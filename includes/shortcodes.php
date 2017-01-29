@@ -42,8 +42,12 @@ function tk_ud_search( $atts ) {
 	                <?php } ?>
                     <div class="col-md-3">
                         <div class="row">
-                            <div class="col-lg-6"><input type="submit" id="searchsubmit" value="<?php _e( 'Search', 'tk_ud' ); ?>" class="btn btn-primary btn-small"/></div>
-                            <div class="col-lg-6"><input type="reset" id="reset" value="<?php _e( 'Reset', 'tk_ud' ); ?>"  class="btn btn-primary btn-small"/></div>
+							<?php if( isset( $tk_ud_search['display_submit'] ) && $tk_ud_search['display_submit'] == 'yes' ){ ?>
+								<div class="col-lg-6"><input type="submit" id="searchsubmit" value="<?php _e( 'Search', 'tk_ud' ); ?>" class="btn btn-primary btn-small"/></div>
+							<?php } ?>
+	                        <?php if( isset( $tk_ud_search['display_reset'] ) && $tk_ud_search['display_reset'] == 'yes' ){ ?>
+		                        <div class="col-lg-6"><input type="reset" id="reset" value="<?php _e( 'Reset', 'tk_ud' ); ?>"  class="btn btn-primary btn-small"/></div>
+	                        <?php } ?>
                         </div>
                     </div>
                 </div>
