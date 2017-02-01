@@ -1,5 +1,5 @@
 <?php
-
+include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 // Create the post type
 add_action('init', 'tk_ud_register_post_type');
 function tk_ud_register_post_type()
