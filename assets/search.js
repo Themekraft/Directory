@@ -1,6 +1,6 @@
 jQuery(document).ready(function () {
 
-    jQuery("#spinner").bind("ajaxSend", function() {
+    jQuery("#tk-ud-spinner").bind("ajaxSend", function() {
         jQuery(this).show();
         }).bind("ajaxStop", function() {
         jQuery(this).hide();
@@ -59,7 +59,7 @@ jQuery(document).ready(function () {
             return false;
         }
 
-    })
+    });
 
     // Reload the search if reset is triggered
     jQuery(document).on('click', '#reset', function () {
@@ -85,6 +85,7 @@ function tk_ud_ajax_search() {
     var s_distance  = jQuery('#tk-ud-s-distance').val();
     var s_cat       = jQuery('#tk-ud-s-cat').val();
     var paged       = jQuery('#tk-ud-paged').val();
+
 
     jQuery.post(
         TK_UD_Ajax.ajaxurl,
