@@ -65,6 +65,7 @@ class TK_Ajax_Search {
 			'posts_per_page' => 10,
 			'orderby' => 'title',
 			'order' => 'ASC',
+            'post_status' => 'publish',
 			'paged' => $paged,
 		);
 
