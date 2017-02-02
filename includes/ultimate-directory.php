@@ -8,7 +8,8 @@ function tk_ud_register_post_type()
         "name" => __('Directories', 'tk_ud'),
         "singular_name" => __('Directory', 'tk_ud'),
     );
-
+    $tk_ud_slug = get_option( 'tk_ud_slug', true );
+    
     $args = array(
         "label" => __('Directories', 'tk_ud'),
         "labels" => $labels,
@@ -24,7 +25,9 @@ function tk_ud_register_post_type()
         "capability_type" => "post",
         "map_meta_cap" => true,
         "hierarchical" => true,
-        "rewrite" => array("slug" => "directory", "with_front" => true),
+        "rewrite" => array(
+            "slug" => empty( $tk_ud_slug ) || !empty( $tk_ud_slug ) && $tk_ud_slug == '1' ? "directory" : $tk_ud_slug,
+            "with_front" => true),
         "query_var" => true,
 
         "supports" => array("title", "editor", "thumbnail", "comments", "revisions", "author", "page-attributes"),

@@ -63,6 +63,7 @@ function tk_ud_admin_tabs( $current = 'homepage' ) {
  */
 function tk_ud_register_option() {
 	register_setting( 'tk_ud_form_slug', 'tk_ud_form_slug', 'tk_ud_form_slug_sanitize' );
+	register_setting( 'tk_ud_slug', 'tk_ud_slug', 'tk_ud_form_slug_sanitize' );
 	register_setting( 'tk_ud_meta', 'tk_ud_meta', 'tk_ud_form_slug_sanitize' );
 	register_setting( 'tk_ud_search', 'tk_ud_search', 'tk_ud_form_slug_sanitize' );
 }
@@ -122,6 +123,12 @@ function tk_ud_settings_page_tabs_content() { ?>
 										}
 										?>
 									</select>
+
+									<?php settings_fields( 'tk_ud_slug' ); ?>
+									<?php $tk_ud_slug = get_option( 'tk_ud_slug', true ); ?>
+									<label for="tk_ud_slug"><p><b>Directory Slug</b></p></label>
+									<input id="tk_ud_slug" name="tk_ud_slug" type="text" value="<?php echo empty( $tk_ud_slug ) || !empty( $tk_ud_slug ) && $tk_ud_slug == '1' ? "directory" : $tk_ud_slug ?>">
+
 									<?php submit_button(); ?>
 								</form>
 							</div><!-- .inside -->
