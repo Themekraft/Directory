@@ -59,7 +59,8 @@ class TK_Ajax_Search {
 
 		// Add the search string to the query
 		$args = array(
-			's'         => $search_term,
+			'queryid'   => 'tk_ud_search',
+			's'         => trim($search_term),
 			'post_type' => 'ultimate_directory',
 			'posts_per_page' => 10,
 			'orderby' => 'title',
@@ -81,6 +82,8 @@ class TK_Ajax_Search {
 		$args = apply_filters( 'tk_ud_ajax_search_args', $args );
 
  		$tk_ud_search_query = new WP_Query( $args );
+
+
 
 		$GLOBALS['wp_query'] = $tk_ud_search_query;
 
@@ -116,4 +119,17 @@ class TK_Ajax_Search {
 			)
 		);
 	}
+}
+
+add_filter( 'posts_where' , 'tk_ud_posts_where', 99, 2 );
+
+function tk_ud_posts_where( $where, &$tk_ud_search_query ) {
+	global $wpdb;
+	$queryid = $tk_ud_search_query->get('queryid');
+
+	if( $queryid == 'tk_ud_search' ){
+		$where = str_replace( '(wp_posts.post_title', '(REPLACE(wp_posts.post_title," ","")', $where );
+	}
+
+	return $where;
 }

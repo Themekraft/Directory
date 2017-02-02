@@ -129,7 +129,7 @@ function tk_ud_settings_page_tabs_content() { ?>
 					</div><!-- .metabox-holder -->
 					<?php
 					break;
-				case 'single' :
+				case 'loop' :
 					?>
 					<div class="metabox-holder">
 						<div class="postbox">
@@ -155,7 +155,7 @@ function tk_ud_settings_page_tabs_content() { ?>
 					</div><!-- .metabox-holder -->
 					<?php
 					break;
-				case 'loop' :
+				case 'single' :
 					?>
 					<div class="metabox-holder">
 						<div class="postbox">
