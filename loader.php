@@ -9,6 +9,8 @@
  Author URI: https://profiles.wordpress.org/svenl77
  License: GPLv2 or later
  Network: false
+ Text Domain: tk_ud
+ Domain Path: /languages
 
  *****************************************************************************
  *
@@ -116,7 +118,7 @@ class TK_Ultimate_Directory {
 
 	public function load_plugin_textdomain() {
 
-		load_plugin_textdomain( 'tk-um', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'tk_ud', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 	}
 

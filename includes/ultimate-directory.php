@@ -230,7 +230,7 @@ function tk_ud_locate_template($slug)
 }
 
 // Get field by slug
-function buddyforms_get_form_field_by_slug($form_slug, $slug)
+/*function buddyforms_get_form_field_by_slug($form_slug, $slug)
 {
     global $buddyforms;
 
@@ -241,4 +241,4 @@ function buddyforms_get_form_field_by_slug($form_slug, $slug)
     } endif;
 
     return false;
-}
+}*/

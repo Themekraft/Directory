@@ -7,9 +7,6 @@ function tk_ud_search( $atts ) {
 
 	$with_map = is_plugin_active( 'directory-plz-search/loader.php' );
 
-
-
-
 	?>
 
 	<div class="panel">
@@ -20,7 +17,7 @@ function tk_ud_search( $atts ) {
                     <div class="row">
 
                         <div class="col-md-3">
-                            <input type="text" placeholder="<?php _e( 'Search', 'tk_ud' ); ?>" name="s" id="tk-ud-s"/>
+                            <input type="text" placeholder="<?php _e( 'Companyname', 'tk_ud' ); ?>" name="s" id="tk-ud-s"/>
                         </div>
                         <?php do_action( 'tk_ud_search_form' ); ?>
 
@@ -38,7 +35,13 @@ function tk_ud_search( $atts ) {
                                 </script>
                                 <?php
                                 ob_start();
-                                wp_dropdown_categories( array( 'taxonomy' => 'directory_categories', 'id' => 'tk-ud-s-cat', 'multiple' => true ) );
+                                wp_dropdown_categories( array( 'taxonomy' => 'directory_categories',
+                                    'id' => 'tk-ud-s-cat',
+                                    'multiple' => true,
+                                    'orderby' => 'name',
+                                    'order' => 'ASC',
+                                    'hierarchical' => '1'
+                                ) );
                                 $dropdown = ob_get_clean();
                                 $dropdown = str_replace( 'id=', 'multiple="multiple" id=', $dropdown );
                                 $dropdown = str_replace( 'id=', 'style="width:93%;" id=', $dropdown );
