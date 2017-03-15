@@ -125,7 +125,7 @@ class TK_Ajax_Search {
 
 add_filter( 'posts_where' , 'tk_ud_posts_where', 99, 2 );
 
-function tk_ud_posts_where( $where, &$tk_ud_search_query ) {
+function tk_ud_posts_where( $where, $tk_ud_search_query = '' ) {
 	global $wpdb;
 	$queryid = $tk_ud_search_query->get('queryid');
 
