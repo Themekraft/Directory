@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ultimate Directory\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-20 13:05+0000\n"
-"PO-Revision-Date: 2017-02-20 13:08+0000\n"
+"POT-Creation-Date: 2017-02-20 13:17+0000\n"
+"PO-Revision-Date: 2017-02-20 13:17+0000\n"
 "Last-Translator: DA Admin <huck@huck-fresow.de>\n"
 "Language-Team: German (Formal)\n"
 "Language: de-DE-formal\n"
@@ -13,10 +13,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco - https://localise.biz/"
 
-#: includes/shortcodes.php:13 includes/shortcodes.php:20
-#: includes/shortcodes.php:62
-msgid "Search"
+#: includes/shortcodes.php:20
+msgid "Companyname"
 msgstr "Firmenname"
+
+#. Name of the plugin
+#. Description of the plugin
+msgid "Ultimate Directory"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://github.com/Themekraft/directory"
+msgstr ""
+
+#. Author of the plugin
+msgid "Sven Lehnert"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://profiles.wordpress.org/svenl77"
+msgstr ""
+
+#: includes/shortcodes.php:13 includes/shortcodes.php:62
+msgid "Search"
+msgstr "Suche"
 
 #: includes/shortcodes.php:65
 msgid "Reset"
@@ -53,20 +73,3 @@ msgstr "Es wurde leider nichts gefunden"
 #: includes/admin/tk-ud-admin.php:10
 msgid "Settings"
 msgstr "Einstellungen"
-
-#. Name of the plugin
-#. Description of the plugin
-msgid "Ultimate Directory"
-msgstr ""
-
-#. URI of the plugin
-msgid "https://github.com/Themekraft/directory"
-msgstr ""
-
-#. Author of the plugin
-msgid "Sven Lehnert"
-msgstr ""
-
-#. Author URI of the plugin
-msgid "https://profiles.wordpress.org/svenl77"
-msgstr ""
