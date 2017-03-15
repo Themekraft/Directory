@@ -76,7 +76,8 @@ class TK_Ajax_Search {
 					'taxonomy' => 'directory_categories',
 					'field'    => 'term_id',
 					'terms'    => $search_cat,
-					'operator' => 'AND'
+					'operator' => 'AND',
+					'include_children' => false
 			);
 		}
 
