@@ -101,6 +101,7 @@ function tk_ud_ajax_search() {
         function (response) {
 
             jQuery('#tk-ud-search-result').html(response);
+            jQuery("html, body").animate({ scrollTop: 0 }, "slow");
 
         }
     );

@@ -53,6 +53,7 @@ class TK_Ajax_Search {
 		global $tk_ud_search_query, $tk_ud_posts, $paged;
 
 		$paged = isset( $_POST['paged'] ) ? $_POST['paged'] : 1;
+		$paged = $paged != "0" ? $paged : 1;
 
 		$search_term = isset( $_POST['search_term'] ) ? $_POST['search_term'] : '';
 		$search_cat  = isset( $_POST['search_cat'] ) && $_POST['search_cat'] != -1  ? $_POST['search_cat'] : false;
