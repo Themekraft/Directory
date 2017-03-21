@@ -91,6 +91,7 @@ function tk_ud_search( $atts ) {
 }
 add_shortcode( 'directory_search', 'tk_ud_search' );
 
+
 // Search the directory
 function tk_ud_search_search_only( $atts ) {
     $tk_ud_search = get_option( 'tk_ud_search', true );
