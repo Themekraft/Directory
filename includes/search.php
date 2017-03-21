@@ -129,8 +129,10 @@ add_filter( 'posts_where' , 'tk_ud_posts_where', 99, 2 );
 function tk_ud_posts_where( $where, $tk_ud_search_query = '' ) {
 	global $wpdb;
 	$queryid = $tk_ud_search_query->get('queryid');
-
+    //echo $where;
 	if( $queryid == 'tk_ud_search' ){
+		// $where = str_replace( 'AND (((wp_posts.post_title LIKE \'%', 'AND (((wp_posts.post_title LIKE \'', $where );
+		// $where = str_replace( ' OR (wp_posts.post_excerpt LIKE \'%Abr%\') OR (wp_posts.post_content LIKE \'%Abr%\')))', '', $where );
 		$where = str_replace( '(wp_posts.post_title', '(REPLACE(wp_posts.post_title," ","")', $where );
 	}
 
