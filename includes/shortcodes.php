@@ -30,6 +30,14 @@ function tk_ud_search( $atts ) {
                                         <?php } ?>
                                         placeholder: "<?php _e('Filter', 'dav'); ?>"
                                     });
+                                    var selected = jQuery("#tk-ud-s-cat");
+
+                                    $tmp = jQuery("#tk-ud-s-cat option[value='852']");
+                                    selected.prepend($tmp).multipleSelect("refresh");
+
+                                    $tmp = jQuery("#tk-ud-s-cat option[value='850']");
+                                    selected.prepend($tmp).multipleSelect("refresh");
+
                                 });
                             </script>
                             <?php
