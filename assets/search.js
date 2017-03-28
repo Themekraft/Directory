@@ -9,14 +9,11 @@ jQuery(document).ready(function () {
     });
 
     // Check if search term is entered
-    jQuery(document).on('change keyup paste click delete', '#tk-ud-s', function () {
+    jQuery(document).on('keyup paste delete', '#tk-ud-s', function () {
 
         var s = jQuery( this ).val();
-
-        if (s.length > 2) {
-            jQuery('#tk-ud-paged').val(0);
-            tk_ud_ajax_search();
-        }
+        // do Seacrh with timeout
+        doSearch(s);
 
     });
 
@@ -69,6 +66,20 @@ jQuery(document).ready(function () {
     tk_ud_ajax_search();
 
 });
+
+
+
+var delayTimer;
+function doSearch(s) {
+    clearTimeout(delayTimer);
+    delayTimer = setTimeout(function() {
+        if (s.length >= 1) {
+            jQuery('#tk-ud-paged').val(0);
+            tk_ud_ajax_search();
+        }
+    }, 600); // Will do the ajax stuff after 1000 ms, or 1 s
+}
+
 
 // function to get the current page number
 function find_page_number( element ) {
