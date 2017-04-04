@@ -114,8 +114,13 @@ function tk_ud_settings_page_tabs_content() { ?>
 							<div class="inside">
 								<form method="post" action="options.php">
 									<?php settings_fields( 'tk_ud_form_slug' ); ?>
-									<?php $tk_ud_form_slug = get_option( 'tk_ud_form_slug', true ); ?>
-									<select id="tk-ud-buddyforms" name="tk_ud_form_slug">
+									<?php $tk_ud_form_slug = get_option( 'tk_ud_form_slug' );
+
+
+									echo  'was soll das jetzt ' . $tk_ud_form_slug;
+
+									?>
+									<select id="tk_ud_form_slug" name="tk_ud_form_slug">
 										<?php if ( isset( $buddyforms ) ) {
 											foreach ( $buddyforms as $buddyform ) {
 												echo '<option ' . selected( $tk_ud_form_slug, $buddyform['slug'] ) . '  value="' . $buddyform['slug'] . '">' . $buddyform['name'] . '</option>';
@@ -247,7 +252,7 @@ function tk_ud_settings_page_sidebar() {
 function tk_ud_get_field_list( $type = 'single' ) {
 	global $buddyforms;
 
-	$tk_ud_form_slug = get_option( 'tk_ud_form_slug' );
+	$tk_ud_form_slug = 'products';
 	$tk_ud_meta      = get_option( 'tk_ud_meta' ); ?>
 
 	<ul id="tk-pu-<?php echo $type ?>" class="tk-pu-sortable">
