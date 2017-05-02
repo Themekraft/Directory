@@ -142,6 +142,7 @@ class TK_Ultimate_Directory {
 //			|| $hook_suffix == 'buddyforms-page-bf-submissions'
 //			|| $hook_suffix == 'buddyforms_page_buddyforms-pricing'
 //		) {
+		wp_enqueue_script('jquery-ui-draggable');
 		wp_enqueue_script( 'admin', plugins_url( 'assets/admin/admin.js', __FILE__ ), array( 'jquery' ), '4.0.3' );
 //		}
 
